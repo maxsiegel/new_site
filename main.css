@@ -1,0 +1,14 @@
+* {font-family:Comic Sans MS, cursive, sans-serif}
+
+html {
+    cursor: url(cursor.gif), crosshair;
+    background: yellow;
+    /* color: aqua; */
+    margin: 100px;
+    }
+
+body {
+    
+    font-size: 24px;
+    }
+
