@@ -1,8 +1,8 @@
-* {font-family:Comic Sans MS, cursive, sans-serif}
+* {font-family:Helvetica Neue, sans-serif}
 
 html {
     cursor: url(cursor.gif), crosshair;
-    background: yellow;
+    background: gray;
     /* color: aqua; */
     margin: 100px;
     }
