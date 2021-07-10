@@ -10,6 +10,7 @@ var html = document.querySelector("html");
 function laser() {
     html.style.cursor = "url('laser.png'), auto";
 }
+
 function brain() {
     // document.body.style.cursor = "url('cursor.png'), auto";
     html.style.cursor = "url('cursor.png'), auto";
