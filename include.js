@@ -19,4 +19,6 @@ async function loadHTML(id, file) {
 Promise.all([
     loadHTML("main", "main.html"),
     loadHTML("publications", "pubs.html")
-]);
+]).then(function () {
+    document.body.classList.add("content-loaded");
+});
