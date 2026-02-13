@@ -1,0 +1,18 @@
+<section class="publications">
+  <!-- {{#entries_by_year}} -->
+      <!-- <h3>{{year}}</h3> -->
+  <ul class="publication-list">
+    {{#entries}}
+    <li id="{{id}}" class="publication-item publication-{{type}}">
+      <span class="publication-authors">{{authors_text}}</span>.
+      <span class="publication-year">{{year}}</span>.
+      <span class="publication-title">"{{title}}"</span>.
+      {{#venue}}<span class="publication-venue">{{venue}}</span>.{{/venue}}
+      {{#supplementary}} <a class="publication-supplementary" href="{{supplementary}}">supplementary</a>{{/supplementary}}
+      {{#code}} <a class="publication-code" href="{{code}}">code</a>{{/code}}
+    </li>
+    {{/entries}}
+  </ul>
+  <!-- {{/entries_by_year}} -->
+
+</section>

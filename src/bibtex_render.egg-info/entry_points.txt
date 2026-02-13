@@ -1,0 +1,2 @@
+[console_scripts]
+bibtex-render = bibtex_render.cli:main

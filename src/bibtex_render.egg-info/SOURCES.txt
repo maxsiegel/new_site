@@ -1,0 +1,15 @@
+README.md
+pyproject.toml
+src/bibtex_render/__init__.py
+src/bibtex_render/__main__.py
+src/bibtex_render/bibtex.py
+src/bibtex_render/cli.py
+src/bibtex_render/default_template.mustache
+src/bibtex_render/render.py
+src/bibtex_render/template.py
+src/bibtex_render.egg-info/PKG-INFO
+src/bibtex_render.egg-info/SOURCES.txt
+src/bibtex_render.egg-info/dependency_links.txt
+src/bibtex_render.egg-info/entry_points.txt
+src/bibtex_render.egg-info/top_level.txt
+tests/test_render.py
