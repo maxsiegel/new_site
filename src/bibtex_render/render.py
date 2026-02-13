@@ -37,7 +37,7 @@ _MONTHS = {
 
 _LATEX_TEXT_MACRO = re.compile(r"\\(?:textit|textbf|emph|texttt|textsc|url)\{([^{}]*)\}")
 _LATEX_ACCENT_MACRO = re.compile(
-    r"\\[`'\"^~=.uvHcdbkrt]\{?([A-Za-z])\}?|\\[A-Za-z]+\{([A-Za-z])\}"
+    r"\\[`'\"^~=.]\{?([A-Za-z])\}?|\\(?:u|v|H|c|d|b|k|r|t)\{([A-Za-z])\}|\\[A-Za-z]+\{([A-Za-z])\}"
 )
 _LATEX_COMMAND = re.compile(r"\\[A-Za-z]+\*?")
 _MULTISPACE = re.compile(r"\s+")
@@ -45,12 +45,17 @@ _MULTISPACE = re.compile(r"\s+")
 
 def _latex_to_text(value: str) -> str:
     text = value or ""
+    text = text.replace(r"\textasteriskcentered", "*")
+    text = text.replace(r"\ast", "*")
+    text = text.replace(r"\*", "*")
     while True:
         updated = _LATEX_TEXT_MACRO.sub(r"\1", text)
         if updated == text:
             break
         text = updated
-    text = _LATEX_ACCENT_MACRO.sub(lambda m: m.group(1) or m.group(2) or "", text)
+    text = _LATEX_ACCENT_MACRO.sub(
+        lambda m: m.group(1) or m.group(2) or m.group(3) or "", text
+    )
     text = text.replace("\\&", "&")
     text = text.replace("~", " ")
     text = _LATEX_COMMAND.sub("", text)

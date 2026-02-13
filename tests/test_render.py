@@ -74,6 +74,19 @@ class RenderTest(unittest.TestCase):
             html,
         )
 
+    def test_render_preserves_joint_first_author_asterisk_marker(self) -> None:
+        text = r"""
+@article{a2024,
+  author = {Siegel\textasteriskcentered, Thomas and Roe, Riley},
+  title = {Paper A},
+  year = {2024}
+}
+"""
+        entries = parse_bibtex(text)
+        template = "{{#entries}}<p>{{authors_text}}</p>{{/entries}}"
+        html = render_publications(entries, template)
+        self.assertIn("Siegel*, T., Roe, R.", html)
+
     def test_default_template_links_title_to_pdf_when_present(self) -> None:
         text = """
 @article{a2024,
