@@ -5,27 +5,18 @@ function preload(impath) {
 
 preload('laser.png');
 
-var html = document.querySelector("html");
+var html = document.documentElement;
 
 function laser() {
     html.style.cursor = "url('laser.png'), auto";
 }
 
 function brain() {
-    // document.body.style.cursor = "url('cursor.png'), auto";
     html.style.cursor = "url('cursor.png'), auto";
 }
 
-html.onmousedown = laser;
-html.onmouseup = brain;
-
-function loadHTML(id, file) {
-    fetch(file)
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById(id).innerHTML = data;
-        });
-}
-
-loadHTML("header", "/header.html");
-// loadHTML("footer", "/footer.html");
+document.addEventListener("DOMContentLoaded", function () {
+    brain();
+    html.onmousedown = laser;
+    html.onmouseup = brain;
+});

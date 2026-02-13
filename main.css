@@ -1,9 +1,53 @@
 * {
-    font-family:Helvetica Neue, Helvetica, sans-serif;
-    background: white;
-  }
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
 
 body {
-    margin: 150px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #fff;
+    color: #000;
     font-size: 14px;
+    line-height: 1.45;
+}
+
+main {
+    width: min(980px, 100% - 64px);
+    margin: 48px auto 64px;
+}
+
+.intro {
+    text-align: center;
+}
+
+.title {
+    margin-top: 0;
+}
+
+.contact {
+    margin: 8px 0 16px;
+}
+
+.portrait {
+    margin: 20px 0;
+}
+
+.bio {
+    text-align: left;
+}
+
+.publications {
+    margin-top: 24px;
+}
+
+@media (max-width: 768px) {
+    main {
+        width: calc(100% - 32px);
+        margin: 24px auto 40px;
+    }
 }

@@ -1,10 +1,22 @@
-function loadHTML(id, file) {
-    fetch(file)
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById(id).innerHTML = data;
-        });
+async function loadHTML(id, file) {
+    const target = document.getElementById(id);
+    if (!target) {
+        return;
+    }
+
+    try {
+        const response = await fetch(file);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch ${file}: ${response.status}`);
+        }
+
+        target.innerHTML = await response.text();
+    } catch (error) {
+        console.error(error);
+    }
 }
 
-loadHTML("main", "/main.html");
-loadHTML("footer", "/pubs.html");
+Promise.all([
+    loadHTML("main", "main.html"),
+    loadHTML("publications", "pubs.html")
+]);
