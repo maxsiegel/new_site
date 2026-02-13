@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TEMPLATE="$ROOT_DIR/index.template.html"
-MAIN_FRAGMENT="$ROOT_DIR/main.html"
-PUBS_FRAGMENT="$ROOT_DIR/pubs.html"
-OUTPUT="$ROOT_DIR/index.html"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+SRC_DIR="$ROOT_DIR/src"
+PUBLIC_DIR="$ROOT_DIR/public"
+TEMPLATE="$SRC_DIR/index.template.html"
+MAIN_FRAGMENT="$SRC_DIR/main.html"
+PUBS_FRAGMENT="$SRC_DIR/pubs.html"
+OUTPUT="$PUBLIC_DIR/index.html"
 
 for path in "$TEMPLATE" "$MAIN_FRAGMENT" "$PUBS_FRAGMENT"; do
     if [ ! -f "$path" ]; then
@@ -13,6 +16,8 @@ for path in "$TEMPLATE" "$MAIN_FRAGMENT" "$PUBS_FRAGMENT"; do
         exit 1
     fi
 done
+
+mkdir -p "$PUBLIC_DIR"
 
 awk -v main="$MAIN_FRAGMENT" -v pubs="$PUBS_FRAGMENT" '
 function print_file(path, line) {

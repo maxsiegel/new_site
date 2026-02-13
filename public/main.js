@@ -3,16 +3,16 @@ function preload(impath) {
     img.src = impath;
 }
 
-preload('laser.png');
+preload('assets/laser.png');
 
 var html = document.documentElement;
 
 function laser() {
-    html.style.cursor = "url('laser.png'), auto";
+    html.style.cursor = "url('assets/laser.png'), auto";
 }
 
 function brain() {
-    html.style.cursor = "url('cursor.png'), auto";
+    html.style.cursor = "url('assets/cursor.png'), auto";
 }
 
 document.addEventListener("DOMContentLoaded", function () {
