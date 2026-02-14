@@ -5,13 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 PUBLIC_DIR="$ROOT_DIR/public"
 HOST="${MIT_WEB_HOST:-athena.dialup.mit.edu}"
-KERB="${1:-${MIT_KERBEROS:-}}"
-
-if [[ -z "$KERB" ]]; then
-    echo "Usage: $0 <kerberos>" >&2
-    echo "   or: MIT_KERBEROS=<kerberos> $0" >&2
-    exit 1
-fi
+KERB="maxs"
 
 REMOTE="${KERB}@${HOST}"
 
