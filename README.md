@@ -8,3 +8,6 @@ Build assembled page:
 
 Deploy to MIT:
 `./scripts/deploy.sh <kerberos>`
+
+Push to GitHub and then update MIT (Duo prompt required):
+`./scripts/publish.sh`
