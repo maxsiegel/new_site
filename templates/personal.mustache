@@ -1,0 +1,9 @@
+<section class="publications">
+    {{#entries}}
+        <div class="publication">
+            <span class="publication-authors">{{authors_text}}</span>
+            <span class="publication-year">({{year}}).</span>
+            {{#pdf}}<a class="publication-title publication-title-link" href="{{pdf}}">{{title}}</a>.{{/pdf}}{{^pdf}}<span class="publication-title">{{title}}</span>.{{/pdf}}{{#venue}} <span class="publication-venue">{{venue}}</span>.{{/venue}}{{#supplementary}} <a class="publication-supplementary" href="{{supplementary}}">supplementary</a>{{/supplementary}}{{#code}} <a class="publication-code" href="{{code}}">code</a>{{/code}}
+        </div>
+    {{/entries}}
+</section>

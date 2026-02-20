@@ -1,13 +1,13 @@
 Edit sources in `src/` and served assets in `public/`.
 
 Update publications HTML from BibTeX:
-`bibtex-render -t ~/bibtex-render/templates/personal.mustache src/pubs.bib -o src/pubs.html`
+`./scripts/render-pubs.sh`
 
 Build assembled page:
 `./scripts/build-index.sh`
 
 Deploy to MIT:
-`./scripts/deploy.sh`
+`./scripts/sync-direct-to-mit.sh`
 
 Push to GitHub and then update MIT (Duo prompt required):
-`./scripts/publish.sh`
+`./scripts/update.sh`
