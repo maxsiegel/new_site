@@ -1,0 +1,211 @@
+:root {
+    --page-bg: #f6f5f1;
+    --card-bg: #ffffff;
+    --card-border: #d4d7da;
+    --text: #1f2225;
+    --muted: #5f6770;
+    --accent: #1e4d6a;
+    --accent-strong: #173c52;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Charter", "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    color: var(--text);
+    line-height: 1.6;
+    background: var(--page-bg);
+}
+
+main {
+    width: min(940px, calc(100% - 28px));
+    margin: 22px auto 44px;
+    display: grid;
+    gap: 12px;
+}
+
+main > section {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    padding: 22px 24px;
+}
+
+.intro {
+    text-align: center;
+}
+
+.eyebrow {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
+}
+
+.title {
+    margin: 7px 0 6px;
+    font-size: clamp(1.7rem, 2vw, 2.3rem);
+    line-height: 1.2;
+}
+
+.contact-row {
+    margin: 16px 0 4px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.contact-link,
+.jump-link {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--card-border);
+    background: #fff;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
+    transition: border-color 120ms ease, color 120ms ease;
+}
+
+.contact-link:hover,
+.jump-link:hover {
+    color: var(--accent-strong);
+    border-color: var(--accent);
+}
+
+.contact-link:focus-visible,
+.jump-link:focus-visible,
+.publication-title-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.portrait {
+    margin: 14px 0;
+}
+
+.portrait img {
+    width: min(300px, 38vw);
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid var(--card-border);
+}
+
+.bio {
+    margin: 0 auto;
+    max-width: 74ch;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 8px;
+}
+
+.section-head h2 {
+    margin: 0;
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+}
+
+.publication-note {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
+}
+
+.publication-list {
+    margin: 0;
+    padding-left: 1.3rem;
+    list-style: decimal;
+}
+
+.publication-item {
+    padding: 8px 0 10px 0.2rem;
+    border-bottom: 1px solid #eceff2;
+}
+
+.publication-authors,
+.publication-meta,
+.publication-title-line {
+    margin: 0;
+}
+
+.publication-authors {
+    font-weight: 600;
+}
+
+.publication-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 1px;
+    margin-bottom: 3px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
+}
+
+.publication-year {
+    font-weight: 700;
+}
+
+.publication-title,
+.publication-title-link {
+    font-style: italic;
+    font-size: 1rem;
+}
+
+.publication-title-link {
+    color: var(--accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+}
+
+.publication-title-link:hover {
+    color: var(--accent-strong);
+}
+
+@media (max-width: 840px) {
+    main {
+        width: calc(100% - 16px);
+        margin: 10px auto 28px;
+        gap: 10px;
+    }
+
+    main > section {
+        padding: 14px 12px;
+        border-radius: 4px;
+    }
+
+    .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .publication-list {
+        padding-left: 1.1rem;
+    }
+}
