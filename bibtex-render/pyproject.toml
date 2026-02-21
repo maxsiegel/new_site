@@ -1,0 +1,26 @@
+[project]
+name = "bibtex-render"
+version = "0.1.0"
+description = "Render BibTeX citations to HTML using a configurable template."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Max" }
+]
+
+[project.scripts]
+bibtex-render = "bibtex_render.cli:main"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+bibtex_render = ["*.mustache"]
