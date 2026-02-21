@@ -4,7 +4,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 TEMPLATE="$ROOT_DIR/templates/personal.mustache"
-INPUT="$ROOT_DIR/src/pubs.bib"
+MONOREPO_ROOT="$(cd "$ROOT_DIR/.." && pwd)"
+INPUT="$MONOREPO_ROOT/pubs.bib"
 OUTPUT="$ROOT_DIR/src/pubs.html"
 
 if ! command -v bibtex-render >/dev/null 2>&1; then
