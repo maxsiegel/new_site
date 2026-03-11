@@ -1,0 +1,86 @@
+\documentclass[11pt,a4paper,sans]{moderncv}
+
+\moderncvstyle{classic}
+\moderncvcolor{blue}
+
+\usepackage[scale=0.85]{geometry}
+\setlength{\hintscolumnwidth}{2.8cm}
+\usepackage[
+  backend=biber,
+  sorting=ydnt,
+  maxbibnames=99,
+  doi=false,
+  url=false,
+  issn=false
+]{biblatex}
+\usepackage{xstring}
+\DeclareSourcemap{
+	\maps[datatype=bibtex]{
+		\map{
+			\step[fieldsource=joint_first, fieldtarget=usera]
+		}
+	}
+}
+\addbibresource{../pubs.bib}
+\newcommand{\cvjointfirstmark}[1]{%
+	\iffieldundef{usera}
+	{#1}
+	{\IfSubStr{\thefield{usera}}{\namepartfamily}{#1*}{#1}}%
+}
+\newcommand{\cvisselfauthor}{%
+	\ifboolexpr{
+		test {\ifcurrentname{author}}
+		and
+		test {\ifdefstring{\namepartfamily}{Siegel}}
+	}%
+}
+\AtBeginBibliography{%
+	\renewcommand*{\mkbibnamefamily}[1]{%
+		\cvisselfauthor
+		{\textbf{\cvjointfirstmark{#1}}}
+		{\cvjointfirstmark{#1}}}%
+	\renewcommand*{\mkbibnamegiven}[1]{%
+		\cvisselfauthor
+		{\textbf{#1}}
+		{#1}}%
+}
+
+\name{Max}{Siegel}
+\title{Curriculum Vitae}
+\address{Cambridge, MA}{}{}
+\email{maxs@mit.edu}
+
+\begin{document}
+\makecvtitle
+
+\section{Profile}
+\cvitem{}{
+	Research Scientist in the Computational Cognitive Science group in the
+	Department of Brain and Cognitive Sciences at MIT. Research focuses on
+	computational cognitive science, perception, and concept learning.
+}
+
+\section{Research Interests}
+\cvitem{}{
+	Computational cognitive science; visual perception; concept learning;
+	multimodal reasoning; human-AI interaction.
+}
+
+\section{Appointments}
+\cventry{2018--Present}{Research Scientist}{MIT, Department of Brain and Cognitive Sciences}{Cambridge, MA}{}{
+	Computational Cognitive Science Group.
+}
+
+\section{Education}
+\cventry{2018}{Ph.D. in Brain and Cognitive Sciences}{MIT}{Cambridge, MA}{}{
+	Graduated September 2018.
+}
+
+\section{Publications}
+\nocite{*}
+\printbibliography
+[
+  heading=none
+]
+
+\end{document}
