@@ -3,23 +3,21 @@ set -euo pipefail
 
 KERB="maxs"
 HOST="athena.dialup.mit.edu"
+SITE_REMOTE="${SITE_REMOTE:-git@github.com:maxsiegel/site.git}"
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-DEPLOY_PATHS=(
-  public
-  scripts/build-index.sh
-  src
-)
 
 cd "$ROOT_DIR"
 
-if [ -n "$(git status --porcelain -- "${DEPLOY_PATHS[@]}")" ]; then
-  echo "Uncommitted or untracked deploy files. Commit them before deploying:" >&2
-  git status --short -- "${DEPLOY_PATHS[@]}" >&2
+if [ -n "$(git status --porcelain -- .)" ]; then
+  echo "Uncommitted or untracked site files. Commit them before deploying:" >&2
+  git status --short -- . >&2
   exit 1
 fi
 
 git push origin master
+DEPLOY_COMMIT="$(git subtree split --prefix=site HEAD)"
+git push "$SITE_REMOTE" "${DEPLOY_COMMIT}:master"
 
 ssh "${KERB}@${HOST}" <<'EOF'
 set -euo pipefail
