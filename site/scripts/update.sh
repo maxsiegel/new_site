@@ -5,9 +5,10 @@ KERB="maxs"
 HOST="athena.dialup.mit.edu"
 SITE_REMOTE="${SITE_REMOTE:-git@github.com:maxsiegel/site.git}"
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SITE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_DIR="$(git -C "$SITE_DIR" rev-parse --show-toplevel)"
 
-cd "$ROOT_DIR"
+cd "$SITE_DIR"
 
 if [ -n "$(git status --porcelain -- .)" ]; then
   echo "Uncommitted or untracked site files. Commit them before deploying:" >&2
@@ -15,6 +16,7 @@ if [ -n "$(git status --porcelain -- .)" ]; then
   exit 1
 fi
 
+cd "$REPO_DIR"
 git push origin master
 DEPLOY_COMMIT="$(git subtree split --prefix=site HEAD)"
 git push "$SITE_REMOTE" "${DEPLOY_COMMIT}:master"
