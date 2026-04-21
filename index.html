@@ -12,7 +12,8 @@
 <script>
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "theme": "dark",
-  "accentColor": "#b85c38"
+  "accentColor": "#b85c38",
+  "adversarial": true
 }/*EDITMODE-END*/;
 </script>
 
@@ -157,6 +158,35 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   overflow: hidden;
   flex-shrink: 0;
   border-radius: 18px;
+  transition: filter 400ms ease, box-shadow 400ms ease;
+}
+
+.portrait-wrap {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.devil-horns {
+  position: absolute;
+  top: -48px;
+  left: 0;
+  width: 220px;
+  height: 80px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 400ms ease, transform 400ms ease;
+}
+
+.portrait-wrap.devilish .devil-horns {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.portrait-wrap.devilish .portrait-frame {
+  filter: saturate(1.4) hue-rotate(-15deg) contrast(1.1);
+  box-shadow: 0 0 32px rgba(192, 57, 43, 0.6), 0 0 64px rgba(192, 57, 43, 0.2);
 }
 
 .portrait-frame img {
@@ -436,22 +466,30 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
     <div class="masthead-top">
       <span class="masthead-label">MIT · Brain &amp; Cognitive Sciences · Computational Cognitive Science Group</span>
-
+      <span class="masthead-label">
+        <button id="adv-toggle" onclick="toggleAdversarial()" style="background:none;border:none;cursor:pointer;font:inherit;color:inherit;letter-spacing:inherit;padding:0;text-transform:uppercase;">adversarial mode: <span id="adv-status" style="color:var(--accent)">on</span></button>
+      </span>
     </div>
 
     <span class="masthead-name">Max <em>Siegel</em></span>
 
     <div class="masthead-bottom">
       <p class="masthead-bio">
-        <strong>Research Scientist.</strong> I study how humans understand the physical and social world — using computational modeling, behavioral experiments, and the lens of Bayesian inference. Member of the <a href="https://cocosci.mit.edu">Computational Cognitive Science group</a> at MIT.
+        <strong>Research Scientist.</strong> I study how humans perceive the physical world — using computational modeling, behavioral experiments, and the lens of Bayesian inference. Member of the <a href="https://cocosci.mit.edu">Computational Cognitive Science group</a> at MIT.
       </p>
       <div class="masthead-meta">
-        <div class="portrait-frame">
-          <img src="public/assets/max.png" alt="Max Siegel"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="portrait-placeholder" style="display:none">photo</div>
+        <div class="portrait-wrap">
+          <div class="portrait-frame">
+            <img src="public/assets/max.png" alt="Max Siegel"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="portrait-placeholder" style="display:none">photo</div>
+          </div>
+          <svg class="devil-horns" viewBox="0 0 220 80" xmlns="http://www.w3.org/2000/svg">
+            <path d="M55 72 C50 50 20 30 30 5 C38 25 52 35 60 55 Z" fill="#c0392b"/>
+            <path d="M165 72 C170 50 200 30 190 5 C182 25 168 35 160 55 Z" fill="#c0392b"/>
+          </svg>
         </div>
-        <a class="masthead-email" href="/cdn-cgi/l/email-protection#caa7abb2b98aa7a3bee4afaebf"><span class="__cf_email__" data-cfemail="9cf1fde4efdcf1f5e8b2f9f8e9">[email&#160;protected]</span></a>
+        <a class="masthead-email" href="mailto:maxs@mit.edu">maxs@mit.edu</a>
       </div>
     </div>
 
@@ -485,6 +523,12 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     <button class="tweak-btn active" data-theme="dark" onclick="setTheme('dark',this)">Dark</button>
   </div>
 
+  <label>Adversarial mode</label>
+  <div class="tweak-btn-group">
+    <button class="tweak-btn active" id="adv-on" onclick="setAdversarial(true,this)">On</button>
+    <button class="tweak-btn" id="adv-off" onclick="setAdversarial(false,this)">Off</button>
+  </div>
+
   <label>Accent</label>
   <div class="color-swatches">
     <div class="color-swatch active" style="background:#b85c38" title="#b85c38" onclick="setAccent('#b85c38',this)"></div>
@@ -495,21 +539,76 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ── FLEEING LINKS ──
 (function() {
   const FLEE_RADIUS = 100;
   const FLEE_STRENGTH = 60;
   const RETURN_SPEED = 0.12;
+  const SPEED_THRESHOLD = 0.8;
 
   const links = [];
 
+  // inject feet CSS
+  const feetStyle = document.createElement('style');
+  feetStyle.textContent = `
+    .flee-wrap {
+      display: inline-block;
+      position: relative;
+      vertical-align: baseline;
+    }
+    .flee-wrap.block-wrap {
+      display: block;
+      margin-bottom: 6px;
+    }
+    .flee-feet {
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 80ms;
+    }
+    .flee-wrap.running .flee-feet { opacity: 1; }
+
+    .leg-l { transform-origin: 4px 0px; }
+    .leg-r { transform-origin: 4px 0px; }
+    .flee-wrap.running .leg-l { animation: legL 0.3s linear infinite; }
+    .flee-wrap.running .leg-r { animation: legR 0.3s linear infinite; }
+
+    @keyframes legL {
+      0%   { transform: rotate(-30deg); }
+      50%  { transform: rotate( 30deg); }
+      100% { transform: rotate(-30deg); }
+    }
+    @keyframes legR {
+      0%   { transform: rotate( 30deg); }
+      50%  { transform: rotate(-30deg); }
+      100% { transform: rotate( 30deg); }
+    }
+  `;
+  document.head.appendChild(feetStyle);
+
+  function makeFeetSVG() {
+    return `<svg class="flee-feet" width="16" height="12" viewBox="0 0 16 12" xmlns="http://www.w3.org/2000/svg">
+      <line class="leg-l" x1="4" y1="0" x2="1" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <line class="leg-r" x1="12" y1="0" x2="15" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="0" y1="9" x2="3" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="13" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>`;
+  }
+
   function initLinks() {
     document.querySelectorAll('.pub-title-link, .pub-pdf-tag').forEach(el => {
-      links.push({ el, ox: 0, oy: 0, cx: 0, cy: 0, vx: 0, vy: 0 });
-      el.style.display = 'inline-block';
-      el.style.position = 'relative';
-      el.style.willChange = 'transform';
+      const isBlock = el.classList.contains('pub-title') || el.classList.contains('pub-title-link');
+      const wrap = document.createElement('span');
+      wrap.className = 'flee-wrap' + (isBlock ? ' block-wrap' : '');
+      el.parentNode.insertBefore(wrap, el);
+      wrap.appendChild(el);
+      wrap.insertAdjacentHTML('beforeend', makeFeetSVG());
+      wrap.style.willChange = 'transform';
+      links.push({ el: wrap, cx: 0, cy: 0, vx: 0, vy: 0, running: false, stopTimer: null });
     });
   }
 
@@ -527,28 +626,38 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
       const dist = Math.sqrt(dx * dx + dy * dy);
 
       let fx = 0, fy = 0;
-      if (dist < FLEE_RADIUS && dist > 0) {
+      if (window.__adversarialEnabled !== false && dist < FLEE_RADIUS && dist > 0) {
         const force = (1 - dist / FLEE_RADIUS) * FLEE_STRENGTH;
         fx = (dx / dist) * force;
         fy = (dy / dist) * force;
       }
 
-      // spring back to origin + flee push
       link.vx = link.vx * 0.75 + (fx - link.cx) * RETURN_SPEED;
       link.vy = link.vy * 0.75 + (fy - link.cy) * RETURN_SPEED;
       link.cx += link.vx;
       link.cy += link.vy;
-
-      // clamp so links don't fly off too far
       link.cx = Math.max(-80, Math.min(80, link.cx));
       link.cy = Math.max(-40, Math.min(40, link.cy));
 
+      const speed = Math.sqrt(link.vx * link.vx + link.vy * link.vy);
+      if (speed > SPEED_THRESHOLD && !link.running) {
+        link.running = true;
+        if (link.stopTimer) { clearTimeout(link.stopTimer); link.stopTimer = null; }
+        link.el.classList.add('running');
+      } else if (speed < 0.25 && link.running) {
+        if (!link.stopTimer) {
+          link.stopTimer = setTimeout(() => {
+            link.running = false;
+            link.el.classList.remove('running');
+            link.stopTimer = null;
+          }, 120);
+        }
+      }
       link.el.style.transform = `translate(${link.cx.toFixed(2)}px, ${link.cy.toFixed(2)}px)`;
     });
     requestAnimationFrame(tick);
   }
 
-  // wait for DOM to settle
   setTimeout(() => { initLinks(); requestAnimationFrame(tick); }, 100);
 })();
 
@@ -604,7 +713,7 @@ function render() {
 }
 
 // ── TWEAKS ──
-let state = { theme: 'dark', accentColor: '#b85c38' };
+let state = { theme: 'dark', accentColor: '#b85c38', adversarial: true };
 
 function setTheme(t, btn) {
   state.theme = t;
@@ -617,6 +726,30 @@ function setAccent(hex, el) {
   state.accentColor = hex;
   document.documentElement.style.setProperty('--accent', hex);
   document.querySelectorAll('.color-swatch').forEach(s => s.classList.toggle('active', s === el));
+  persist();
+}
+
+function setDevilish(on) {
+  const wrap = document.querySelector('.portrait-wrap');
+  if (wrap) wrap.classList.toggle('devilish', on);
+}
+
+function toggleAdversarial() {
+  const on = !state.adversarial;
+  state.adversarial = on;
+  window.__adversarialEnabled = on;
+  document.getElementById('adv-status').textContent = on ? 'on' : 'off';
+  document.getElementById('adv-status').style.color = on ? 'var(--accent)' : 'var(--mid)';
+  const btnOn = document.getElementById('adv-on'), btnOff = document.getElementById('adv-off');
+  if (btnOn) { btnOn.classList.toggle('active', on); btnOff.classList.toggle('active', !on); }
+  setDevilish(on);
+  persist();
+}
+
+function setAdversarial(on, btn) {
+  state.adversarial = on;
+  document.querySelectorAll('#adv-on,#adv-off').forEach(b => b.classList.toggle('active', b === btn));
+  window.__adversarialEnabled = on;
   persist();
 }
 
@@ -637,8 +770,16 @@ window.parent.postMessage({ type: '__edit_mode_available' }, '*');
     const saved = JSON.parse(localStorage.getItem('ms2-state') || '{}');
     if (saved.theme) { state.theme = saved.theme; document.body.classList.toggle('dark', saved.theme === 'dark'); const btn = document.querySelector(`[data-theme="${saved.theme}"]`); if (btn) { document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('active', b === btn)); } }
     if (saved.accentColor) { state.accentColor = saved.accentColor; document.documentElement.style.setProperty('--accent', saved.accentColor); }
+    if (saved.adversarial === false) {
+      state.adversarial = false;
+      window.__adversarialEnabled = false;
+      const on = document.getElementById('adv-on'), off = document.getElementById('adv-off');
+      if (on) { on.classList.remove('active'); off.classList.add('active'); }
+    }
   } catch(e) {}
   render();
+  // apply devilish on load if adversarial is on
+  setTimeout(() => setDevilish(state.adversarial !== false), 200);
 })();
 </script>
 </body>
