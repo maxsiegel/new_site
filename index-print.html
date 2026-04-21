@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Max Siegel — CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #0d0c0a;
+  --ink:     #f0ece3;
+  --mid:     #8a8278;
+  --faint:   #2e2b25;
+  --accent:  #b85c38;
+  --display: "Playfair Display", "Georgia", serif;
+  --mono:    "DM Mono", "Courier New", monospace;
+  --sans:    "DM Sans", system-ui, sans-serif;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 11pt;
+  line-height: 1.55;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+a { color: var(--ink); text-decoration: none; }
+
+/* ── MASTHEAD ── */
+.masthead {
+  border-bottom: 3px solid var(--ink);
+  padding: 0;
+}
+
+.masthead-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 10px 0 8px;
+  border-bottom: 1px solid var(--faint);
+  gap: 16px;
+}
+
+.masthead-label {
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+.masthead-name {
+  font-family: var(--display);
+  font-size: 64pt;
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  padding: 14px 0 12px;
+  display: block;
+  color: var(--ink);
+}
+
+.masthead-name em {
+  font-weight: 400;
+  font-style: italic;
+  color: var(--mid);
+}
+
+.masthead-bottom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: end;
+  padding: 12px 0 16px;
+  border-top: 1px solid var(--faint);
+}
+
+.masthead-bio {
+  font-family: var(--sans);
+  font-size: 9pt;
+  line-height: 1.6;
+  color: var(--mid);
+  max-width: 55ch;
+  font-weight: 300;
+}
+
+.masthead-bio strong { color: var(--ink); font-weight: 500; }
+
+.masthead-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.contact-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.contact-link {
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--mid);
+  padding: 3px 6px;
+  border: 1px solid var(--faint);
+}
+
+/* ── SECTION ── */
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 22px 0 8px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: 20pt;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.section-count {
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  font-weight: 300;
+  color: var(--mid);
+  letter-spacing: 0.08em;
+}
+
+/* ── PUBLICATIONS ── */
+.pub-list { list-style: none; }
+
+.pub-item {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  border-bottom: 1px solid var(--faint);
+  break-inside: avoid;
+}
+
+.pub-year-col {
+  padding: 10px 12px 10px 0;
+  border-right: 1px solid var(--faint);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.pub-year {
+  font-family: var(--display);
+  font-size: 13pt;
+  font-weight: 700;
+  color: var(--faint);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.pub-body {
+  padding: 10px 0 10px 14px;
+}
+
+.pub-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 3px;
+}
+
+.pub-title {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 10pt;
+  line-height: 1.35;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+.pub-pdf-tag {
+  font-family: var(--mono);
+  font-size: 6.5pt;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 1px 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pub-authors {
+  font-family: var(--sans);
+  font-size: 8pt;
+  color: var(--mid);
+  font-weight: 300;
+  margin-bottom: 2px;
+  line-height: 1.35;
+}
+
+.pub-venue {
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  color: var(--mid);
+  letter-spacing: 0.03em;
+  font-weight: 300;
+}
+
+.pub-venue.highlighted {
+  color: var(--accent);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ── FOOTER ── */
+.site-footer {
+  border-top: 3px solid var(--ink);
+  padding-top: 10px;
+  margin-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.footer-name {
+  font-family: var(--display);
+  font-size: 12pt;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.footer-meta {
+  font-family: var(--mono);
+  font-size: 7.5pt;
+  font-weight: 300;
+  color: var(--mid);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media print {
+  @page { size: letter portrait; margin: 1.4cm 1.6cm; }
+  body { font-size: 10pt; }
+  .masthead-name { font-size: 52pt; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-top">
+    <span class="masthead-label">MIT · Brain &amp; Cognitive Sciences · Computational Cognitive Science Group</span>
+    <span class="masthead-label" id="pub-count-label"></span>
+  </div>
+
+  <span class="masthead-name">Max <em>Siegel</em></span>
+
+  <div class="masthead-bottom">
+    <p class="masthead-bio">
+      <strong>Research Scientist.</strong> I study how humans understand the physical and social world — using computational modeling, behavioral experiments, and the lens of Bayesian inference. Member of the Computational Cognitive Science group at MIT.
+    </p>
+    <div class="masthead-meta">
+      <div class="contact-links">
+        <span class="contact-link">maxs@mit.edu</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="section-header">
+  <h2 class="section-title">Publications</h2>
+  <span class="section-count" id="section-count"></span>
+</div>
+
+<ul class="pub-list" id="pub-list"></ul>
+
+<footer class="site-footer">
+  <span class="footer-name">Max Siegel</span>
+  <span class="footer-meta">MIT Brain &amp; Cognitive Sciences</span>
+</footer>
+
+<script>
+const PUBS = [
+  { year: 2025, authors: "Ying, L., Xu, D., Zhang, A., Collins, K., Siegel, M., Tenenbaum, J.", title: "What's in the Box? Reasoning about Unseen Objects from Multimodal Cues", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/ying2025what.pdf" },
+  { year: 2025, authors: "Machino, Y., Siegel, M., Hofer, M., Tenenbaum, J., Hawkins, R.", title: "Minding the Politeness Gap in Cross-cultural Communication", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/machino2025minding.pdf" },
+  { year: 2025, authors: "Friedman, Y., Ghavami, M., Bowers, M., Bolton, A., Siegel, M., Mansinghka, V., Tenenbaum, J.", title: "Tracking Uncertainty During Uncertain Tracking", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society" },
+  { year: 2024, authors: "Jonusaite, I., Perez, K., Siegel, M., Schulz, L.", title: "Ad Hoc Theories: How Social Interaction Helps Us Make Sense of the World", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/jonusaite2025.pdf" },
+  { year: 2024, authors: "Washington, B., Leahy, B., Siegel, M., Radifera, S., Struhl, M., Schulz, L.", title: "From the mouths of babes: Toddlers' early word production favors information in common ground", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/washington2025from.pdf" },
+  { year: 2023, authors: "Yildirim*, I., Siegel*, M., Soltani*, A., Ray Chaudhuri, S., Tenenbaum, J.", title: "Perception of 3D shape integrates intuitive physics and analysis-by-synthesis", venue: "Nature Human Behaviour", href: "papers/yildirim2023perception.pdf", highlight: true },
+  { year: 2023, authors: "Mazor, M., Siegel, M., Tenenbaum, J.", title: "Prospective search time estimates reveal the strengths and limits of internal models of visual search", venue: "Journal of Experimental Psychology: General", href: "papers/mazor2023prospective.pdf", highlight: true },
+  { year: 2023, authors: "Coates, N., Siegel, M., Tenenbaum, J., Schulz, L.", title: "Representations of abstract relations in early childhood", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/coates2023representations.pdf" },
+  { year: 2021, authors: "Siegel*, M., Magid*, R., Pelz, M., Tenenbaum, J., Schulz, L.", title: "Children's exploratory play tracks the discriminability of hypotheses", venue: "Nature Communications", href: "papers/nature_comm_2021.pdf", highlight: true },
+  { year: 2020, authors: "Yildirim, I., Siegel, M., Tenenbaum, J.", title: "Physical Object Representations for Perception and Cognition", venue: "The Cognitive Neurosciences, 6th Edition", href: "papers/the_cognitive_neurosciences.pdf" },
+  { year: 2020, authors: "Egger, B., Siegel, M., Arora, R., Soltani, A., Yildirim, I., Tenenbaum, J.", title: "Inverse rendering best explains face perception under extreme illuminations", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/egger2020inverse.pdf" },
+  { year: 2019, authors: "Wang, Y., Gan, C., Siegel, M., Zhang, Z., Wu, J., Tenenbaum, J.", title: "A Computational Model for Combinatorial Generalization in Physical Perception from Sound", venue: "2019 Conference on Cognitive Computational Neuroscience", href: "papers/ccn_2019.pdf" },
+  { year: 2019, authors: "Ullman, T., Kosoy, E., Yildrim, I., Soltani, A., Siegel, M., Tenenbaum, J., Spelke, E.", title: "Draping an Elephant: Uncovering Children's Reasoning About Cloth-Covered Objects", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/cogsci_2019.pdf" },
+  { year: 2018, authors: "Gerstenberg, T., Siegel, M., Tenenbaum, J.", title: "What happened? Reconstructing the past through vision and sound", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society" },
+  { year: 2018, authors: "Siegel, M., Tenenbaum, J., McDermott, J.", title: "Physical Inference for Object Perception in Complex Auditory Scenes", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/the_cognitive_neurosciences.pdf" },
+  { year: 2017, authors: "Woods, K., Siegel, M., Traer, J., McDermott, J.", title: "Headphone screening to facilitate web-based auditory experiments", venue: "Attention, Perception, & Psychophysics", href: "papers/app_2017.pdf", highlight: true },
+  { year: 2017, authors: "Magid, R., Yan, P., Siegel, M., Tenenbaum, J., Schulz, L.", title: "Changing minds: Children's inferences about third party belief revision", venue: "Developmental Science", href: "papers/devsci_2017.pdf", highlight: true },
+  { year: 2017, authors: "Velez-Ginorio, J., Siegel, M., Tenenbaum, J., Jara-Ettinger, J.", title: "Interpreting actions by attributing compositional desires", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/cogsci_2017.pdf" },
+  { year: 2017, authors: "Magid*, R., Siegel*, M., Tenenbaum, J., Schulz, L.", title: "Intuitive psychophysics: Children's exploratory play quantitatively tracks the discriminability of alternative hypotheses", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society" },
+  { year: 2016, authors: "Ullman, T., Siegel, M., Tenenbaum, J., Gershman, S.", title: "Coalescing the Vapors of Human Experience into a Viable and Meaningful Comprehension", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/cogsci_2016_vapors.pdf" },
+  { year: 2016, authors: "Yildirim*, I., Siegel*, M., Tenenbaum, J.", title: "Perceiving fully occluded objects via physical simulation", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/cogsci_2016_cloth.pdf" },
+  { year: 2015, authors: "Green, C., Kattner, F., Siegel, M., Kersten, D., Schrater, P.", title: "Differences in perceptual learning transfer as a function of training task", venue: "Journal of Vision", href: "papers/green_jov.pdf" },
+  { year: 2014, authors: "Siegel, M., Magid, R., Tenenbaum, J., Schulz, L.", title: "Black boxes: Hypothesis testing via indirect perceptual evidence", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/cogsci_2014.pdf" },
+];
+
+function render() {
+  const list = document.getElementById('pub-list');
+  list.innerHTML = PUBS.map(p => {
+    const pdfTag = p.href ? `<span class="pub-pdf-tag">PDF</span>` : '';
+    const title = `<span class="pub-title">${p.title}</span>`;
+    return `
+      <li class="pub-item">
+        <div class="pub-year-col"><span class="pub-year">${p.year}</span></div>
+        <div class="pub-body">
+          <div class="pub-title-row">${title}${pdfTag}</div>
+          <div class="pub-authors">${p.authors}</div>
+          <div class="pub-venue${p.highlight ? ' highlighted' : ''}">${p.venue}</div>
+        </div>
+      </li>`;
+  }).join('');
+  const n = PUBS.length;
+  document.getElementById('section-count').textContent = `${n} papers`;
+  document.getElementById('pub-count-label').textContent = `${n} publications · 2014–2025`;
+}
+
+render();
+
+// Auto-print after fonts load
+document.fonts.ready.then(() => {
+  setTimeout(() => window.print(), 500);
+});
+</script>
+</body>
+</html>

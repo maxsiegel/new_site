@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Max Siegel — Research Scientist, MIT BCS">
+<title>Max Siegel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "light",
+  "accentColor": "#b85c38"
+}/*EDITMODE-END*/;
+</script>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── TOKENS ── */
+:root {
+  --bg:      #faf8f3;
+  --ink:     #0f0e0c;
+  --mid:     #4a4540;
+  --faint:   #c8c3ba;
+  --paper:   #f2ede4;
+  --accent:  #b85c38;
+  --display: "Playfair Display", "Georgia", serif;
+  --mono:    "DM Mono", "Courier New", monospace;
+  --sans:    "DM Sans", system-ui, sans-serif;
+}
+body.dark {
+  --bg:    #0d0c0a;
+  --ink:   #f0ece3;
+  --mid:   #8a8278;
+  --faint: #2e2b25;
+  --paper: #141210;
+}
+
+/* ── BASE ── */
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background 300ms, color 300ms;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── MASTHEAD ── */
+.masthead {
+  border-bottom: 3px solid var(--ink);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.masthead-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.masthead-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 14px 0 10px;
+  border-bottom: 1px solid var(--faint);
+  gap: 16px;
+}
+
+.masthead-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+.masthead-name {
+  font-family: var(--display);
+  font-size: clamp(3.8rem, 10vw, 9rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  padding: 20px 0 16px;
+  display: block;
+  color: var(--ink);
+}
+
+.masthead-name em {
+  font-weight: 400;
+  font-style: italic;
+  color: var(--mid);
+}
+
+.masthead-bottom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: end;
+  padding: 16px 0 20px;
+  border-top: 1px solid var(--faint);
+}
+
+.masthead-bio {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--mid);
+  max-width: 55ch;
+  font-weight: 300;
+}
+
+.masthead-bio strong { color: var(--ink); font-weight: 500; }
+.masthead-bio a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--faint); text-underline-offset: 3px; }
+.masthead-bio a:hover { text-decoration-color: var(--accent); }
+.bio-email { color: var(--mid); }
+
+.masthead-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  /* portrait is now floating, just show email */
+}
+
+.masthead-email {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--mid);
+  text-decoration: none;
+  text-align: center;
+}
+.masthead-email:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.portrait-frame {
+  width: 180px;
+  height: 180px;
+  border: 1px solid var(--faint);
+  overflow: hidden;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.portrait-frame img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+.portrait-placeholder {
+  width: 100%; height: 100%;
+  background: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 9px; color: var(--mid);
+  text-align: center; line-height: 1.4;
+}
+
+.contact-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.contact-link {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--mid);
+  text-decoration: none;
+  padding: 4px 8px;
+  border: 1px solid var(--faint);
+  transition: border-color 120ms, color 120ms;
+}
+.contact-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+/* ── BODY LAYOUT ── */
+.page-body {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px 80px;
+}
+
+/* ── SECTION HEADER ── */
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 36px 0 12px;
+  border-bottom: 1px solid var(--ink);
+  margin-bottom: 0;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.section-count {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--mid);
+  letter-spacing: 0.08em;
+}
+
+/* ── PUBLICATIONS ── */
+.pub-list { list-style: none; }
+
+.pub-item {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  border-bottom: 1px solid var(--faint);
+  transition: background 120ms;
+}
+.pub-item:hover { background: var(--paper); }
+
+.pub-year-col {
+  padding: 18px 16px 18px 0;
+  border-right: 1px solid var(--faint);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.pub-year {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--faint);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.pub-body {
+  padding: 18px 0 18px 20px;
+}
+
+.pub-title {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--ink);
+  font-weight: 400;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.pub-title-link {
+  color: var(--ink);
+  transition: color 120ms;
+}
+.pub-title-link:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.pub-authors {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--mid);
+  font-weight: 300;
+  margin-bottom: 3px;
+  line-height: 1.4;
+}
+
+.pub-venue {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--mid);
+  letter-spacing: 0.03em;
+  font-weight: 300;
+}
+
+.pub-venue.highlighted {
+  color: var(--accent);
+}
+
+.pub-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.pub-title-row .pub-title,
+.pub-title-row .pub-title-link {
+  margin-bottom: 0;
+}
+
+.pub-pdf-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 1px 5px;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0.75;
+  transition: opacity 120ms;
+}
+.pub-pdf-tag:hover { opacity: 1; text-decoration: none; }
+
+/* ── FOOTER ── */
+.site-footer {
+  border-top: 3px solid var(--ink);
+  padding-top: 14px;
+  margin-top: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.footer-name {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.footer-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--mid);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── TWEAKS PANEL ── */
+#tweaks-panel {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  background: var(--bg);
+  border: 1px solid var(--faint);
+  padding: 16px 18px;
+  font-family: var(--sans);
+  font-size: 13px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  z-index: 9999;
+  display: none;
+  width: 210px;
+}
+
+#tweaks-panel h3 {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 400; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--mid); margin-bottom: 14px;
+}
+
+#tweaks-panel label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 400;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--mid); margin-bottom: 6px; margin-top: 14px;
+}
+
+.tweak-btn-group { display: flex; flex-direction: column; gap: 4px; }
+.tweak-btn {
+  background: none; border: 1px solid var(--faint);
+  padding: 6px 10px; text-align: left; cursor: pointer;
+  font-size: 11px; font-family: var(--sans); color: var(--mid);
+  transition: all 100ms;
+}
+.tweak-btn:hover { border-color: var(--accent); color: var(--accent); }
+.tweak-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+.color-swatches { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+.color-swatch {
+  width: 20px; height: 20px; cursor: pointer;
+  border: 2px solid transparent; transition: border-color 100ms;
+}
+.color-swatch.active { border-color: var(--ink); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 680px) {
+  .masthead-inner, .page-body { padding-left: 18px; padding-right: 18px; }
+  .masthead-bottom { grid-template-columns: 1fr; }
+  .masthead-meta { flex-direction: row-reverse; align-items: center; }
+  .portrait-frame { width: 72px; height: 72px; }
+  .contact-links { justify-content: flex-start; }
+  .pub-item { grid-template-columns: 52px 1fr; }
+  .pub-year { font-size: 1.1rem; }
+}
+</style>
+</head>
+<body class="light">
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+
+    <div class="masthead-top">
+      <span class="masthead-label">MIT · Brain &amp; Cognitive Sciences · Computational Cognitive Science Group</span>
+
+    </div>
+
+    <span class="masthead-name">Max <em>Siegel</em></span>
+
+    <div class="masthead-bottom">
+      <p class="masthead-bio">
+        <strong>Research Scientist.</strong> I study how humans understand the physical and social world — using computational modeling, behavioral experiments, and the lens of Bayesian inference. Member of the <a href="https://cocosci.mit.edu">Computational Cognitive Science group</a> at MIT.
+      </p>
+      <div class="masthead-meta">
+        <div class="portrait-frame">
+          <img src="public/assets/max.png" alt="Max Siegel"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="portrait-placeholder" style="display:none">photo</div>
+        </div>
+        <a class="masthead-email" href="mailto:maxs@mit.edu">maxs@mit.edu</a>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- BODY -->
+<div class="page-body">
+
+  <div class="section-header">
+    <h2 class="section-title">Publications</h2>
+    <span class="section-count" id="section-count"></span>
+  </div>
+
+  <ul class="pub-list" id="pub-list"></ul>
+
+  <footer class="site-footer">
+    <span class="footer-name">Max Siegel</span>
+    <span class="footer-meta">MIT Brain &amp; Cognitive Sciences</span>
+  </footer>
+
+</div>
+
+<!-- TWEAKS -->
+<div id="tweaks-panel">
+  <h3>Tweaks</h3>
+
+  <label>Theme</label>
+  <div class="tweak-btn-group">
+    <button class="tweak-btn active" data-theme="light" onclick="setTheme('light',this)">Light</button>
+    <button class="tweak-btn" data-theme="dark" onclick="setTheme('dark',this)">Dark</button>
+  </div>
+
+  <label>Accent</label>
+  <div class="color-swatches">
+    <div class="color-swatch active" style="background:#b85c38" title="#b85c38" onclick="setAccent('#b85c38',this)"></div>
+    <div class="color-swatch" style="background:#1e4d6a" title="#1e4d6a" onclick="setAccent('#1e4d6a',this)"></div>
+    <div class="color-swatch" style="background:#2d5a3d" title="#2d5a3d" onclick="setAccent('#2d5a3d',this)"></div>
+    <div class="color-swatch" style="background:#7a3060" title="#7a3060" onclick="setAccent('#7a3060',this)"></div>
+    <div class="color-swatch" style="background:#4a4540" title="#4a4540" onclick="setAccent('#4a4540',this)"></div>
+  </div>
+</div>
+
+<script>
+// ── FLEEING LINKS ──
+(function() {
+  const FLEE_RADIUS = 100;
+  const FLEE_STRENGTH = 60;
+  const RETURN_SPEED = 0.12;
+
+  const links = [];
+
+  function initLinks() {
+    document.querySelectorAll('.pub-pdf-tag').forEach(el => {
+      links.push({ el, ox: 0, oy: 0, cx: 0, cy: 0, vx: 0, vy: 0 });
+      el.style.display = 'inline-block';
+      el.style.position = 'relative';
+      el.style.willChange = 'transform';
+    });
+  }
+
+  let mouseX = -9999, mouseY = -9999;
+  window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+  window.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+
+  function tick() {
+    links.forEach(link => {
+      const rect = link.el.getBoundingClientRect();
+      const cx = rect.left + rect.width  / 2;
+      const cy = rect.top  + rect.height / 2;
+      const dx = cx - mouseX;
+      const dy = cy - mouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      let fx = 0, fy = 0;
+      if (dist < FLEE_RADIUS && dist > 0) {
+        const force = (1 - dist / FLEE_RADIUS) * FLEE_STRENGTH;
+        fx = (dx / dist) * force;
+        fy = (dy / dist) * force;
+      }
+
+      // spring back to origin + flee push
+      link.vx = link.vx * 0.75 + (fx - link.cx) * RETURN_SPEED;
+      link.vy = link.vy * 0.75 + (fy - link.cy) * RETURN_SPEED;
+      link.cx += link.vx;
+      link.cy += link.vy;
+
+      // clamp so links don't fly off too far
+      link.cx = Math.max(-80, Math.min(80, link.cx));
+      link.cy = Math.max(-40, Math.min(40, link.cy));
+
+      link.el.style.transform = `translate(${link.cx.toFixed(2)}px, ${link.cy.toFixed(2)}px)`;
+    });
+    requestAnimationFrame(tick);
+  }
+
+  // wait for DOM to settle
+  setTimeout(() => { initLinks(); requestAnimationFrame(tick); }, 100);
+})();
+
+
+
+// ── DATA ──
+const PUBS = [
+  { year: 2025, authors: "Ying, L., Xu, D., Zhang, A., Collins, K., Siegel, M., Tenenbaum, J.", title: "What's in the Box? Reasoning about Unseen Objects from Multimodal Cues", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/ying2025what.pdf" },
+  { year: 2025, authors: "Machino, Y., Siegel, M., Hofer, M., Tenenbaum, J., Hawkins, R.", title: "Minding the Politeness Gap in Cross-cultural Communication", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/machino2025minding.pdf" },
+  { year: 2025, authors: "Friedman, Y., Ghavami, M., Bowers, M., Bolton, A., Siegel, M., Mansinghka, V., Tenenbaum, J.", title: "Tracking Uncertainty During Uncertain Tracking", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society" },
+  { year: 2024, authors: "Jonusaite, I., Perez, K., Siegel, M., Schulz, L.", title: "Ad Hoc Theories: How Social Interaction Helps Us Make Sense of the World", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/jonusaite2025.pdf" },
+  { year: 2024, authors: "Washington, B., Leahy, B., Siegel, M., Radifera, S., Struhl, M., Schulz, L.", title: "From the mouths of babes: Toddlers' early word production favors information in common ground", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/washington2025from.pdf" },
+  { year: 2023, authors: "Yildirim*, I., Siegel*, M., Soltani*, A., Ray Chaudhuri, S., Tenenbaum, J.", title: "Perception of 3D shape integrates intuitive physics and analysis-by-synthesis", venue: "Nature Human Behaviour", href: "papers/yildirim2023perception.pdf", highlight: true },
+  { year: 2023, authors: "Mazor, M., Siegel, M., Tenenbaum, J.", title: "Prospective search time estimates reveal the strengths and limits of internal models of visual search", venue: "Journal of Experimental Psychology: General", href: "papers/mazor2023prospective.pdf", highlight: true },
+  { year: 2023, authors: "Coates, N., Siegel, M., Tenenbaum, J., Schulz, L.", title: "Representations of abstract relations in early childhood", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/coates2023representations.pdf" },
+  { year: 2021, authors: "Siegel*, M., Magid*, R., Pelz, M., Tenenbaum, J., Schulz, L.", title: "Children's exploratory play tracks the discriminability of hypotheses", venue: "Nature Communications", href: "papers/nature_comm_2021.pdf", highlight: true },
+  { year: 2020, authors: "Yildirim, I., Siegel, M., Tenenbaum, J.", title: "Physical Object Representations for Perception and Cognition", venue: "The Cognitive Neurosciences, 6th Edition", href: "papers/the_cognitive_neurosciences.pdf" },
+  { year: 2020, authors: "Egger, B., Siegel, M., Arora, R., Soltani, A., Yildirim, I., Tenenbaum, J.", title: "Inverse rendering best explains face perception under extreme illuminations", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/egger2020inverse.pdf" },
+  { year: 2019, authors: "Wang, Y., Gan, C., Siegel, M., Zhang, Z., Wu, J., Tenenbaum, J.", title: "A Computational Model for Combinatorial Generalization in Physical Perception from Sound", venue: "2019 Conference on Cognitive Computational Neuroscience", href: "papers/ccn_2019.pdf" },
+  { year: 2019, authors: "Ullman, T., Kosoy, E., Yildrim, I., Soltani, A., Siegel, M., Tenenbaum, J., Spelke, E.", title: "Draping an Elephant: Uncovering Children's Reasoning About Cloth-Covered Objects", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/cogsci_2019.pdf" },
+  { year: 2018, authors: "Gerstenberg, T., Siegel, M., Tenenbaum, J.", title: "What happened? Reconstructing the past through vision and sound", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society" },
+  { year: 2018, authors: "Siegel, M., Tenenbaum, J., McDermott, J.", title: "Physical Inference for Object Perception in Complex Auditory Scenes", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/the_cognitive_neurosciences.pdf" },
+  { year: 2017, authors: "Woods, K., Siegel, M., Traer, J., McDermott, J.", title: "Headphone screening to facilitate web-based auditory experiments", venue: "Attention, Perception, & Psychophysics", href: "papers/app_2017.pdf", highlight: true },
+  { year: 2017, authors: "Magid, R., Yan, P., Siegel, M., Tenenbaum, J., Schulz, L.", title: "Changing minds: Children's inferences about third party belief revision", venue: "Developmental Science", href: "papers/devsci_2017.pdf", highlight: true },
+  { year: 2017, authors: "Velez-Ginorio, J., Siegel, M., Tenenbaum, J., Jara-Ettinger, J.", title: "Interpreting actions by attributing compositional desires", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/cogsci_2017.pdf" },
+  { year: 2017, authors: "Magid*, R., Siegel*, M., Tenenbaum, J., Schulz, L.", title: "Intuitive psychophysics: Children's exploratory play quantitatively tracks the discriminability of alternative hypotheses", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society" },
+  { year: 2016, authors: "Ullman, T., Siegel, M., Tenenbaum, J., Gershman, S.", title: "Coalescing the Vapors of Human Experience into a Viable and Meaningful Comprehension", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/cogsci_2016_vapors.pdf" },
+  { year: 2016, authors: "Yildirim*, I., Siegel*, M., Tenenbaum, J.", title: "Perceiving fully occluded objects via physical simulation", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/cogsci_2016_cloth.pdf" },
+  { year: 2015, authors: "Green, C., Kattner, F., Siegel, M., Kersten, D., Schrater, P.", title: "Differences in perceptual learning transfer as a function of training task", venue: "Journal of Vision", href: "papers/green_jov.pdf" },
+  { year: 2014, authors: "Siegel, M., Magid, R., Tenenbaum, J., Schulz, L.", title: "Black boxes: Hypothesis testing via indirect perceptual evidence", venue: "Proceedings of the Annual Meeting of the Cognitive Science Society", href: "papers/cogsci_2014.pdf" },
+];
+
+// ── RENDER ──
+function render() {
+  const list = document.getElementById('pub-list');
+  list.innerHTML = PUBS.map(p => {
+    const pdfTag = p.href ? `<a class="pub-pdf-tag" href="${p.href}">PDF</a>` : '';
+    const titleEl = p.href
+      ? `<a class="pub-title pub-title-link" href="${p.href}">${p.title}</a>`
+      : `<span class="pub-title">${p.title}</span>`;
+    return `
+      <li class="pub-item">
+        <div class="pub-year-col"><span class="pub-year">${p.year}</span></div>
+        <div class="pub-body">
+          <div class="pub-title-row">${titleEl}${pdfTag}</div>
+          <div class="pub-authors">${p.authors}</div>
+          <div class="pub-venue">${p.venue}</div>
+        </div>
+      </li>`;
+  }).join('');
+
+  document.getElementById('section-count').textContent = `${PUBS.length} papers`;
+}
+
+// ── TWEAKS ──
+let state = { theme: 'light', accentColor: '#b85c38' };
+
+function setTheme(t, btn) {
+  state.theme = t;
+  document.body.classList.toggle('dark', t === 'dark');
+  document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('active', b === btn));
+  persist();
+}
+
+function setAccent(hex, el) {
+  state.accentColor = hex;
+  document.documentElement.style.setProperty('--accent', hex);
+  document.querySelectorAll('.color-swatch').forEach(s => s.classList.toggle('active', s === el));
+  persist();
+}
+
+function persist() {
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: state }, '*');
+  localStorage.setItem('ms2-state', JSON.stringify(state));
+}
+
+window.addEventListener('message', e => {
+  if (e.data?.type === '__activate_edit_mode') document.getElementById('tweaks-panel').style.display = 'block';
+  else if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaks-panel').style.display = 'none';
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+
+// ── INIT ──
+(function init() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('ms2-state') || '{}');
+    if (saved.theme) { state.theme = saved.theme; document.body.classList.toggle('dark', saved.theme === 'dark'); const btn = document.querySelector(`[data-theme="${saved.theme}"]`); if (btn) { document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('active', b === btn)); } }
+    if (saved.accentColor) { state.accentColor = saved.accentColor; document.documentElement.style.setProperty('--accent', saved.accentColor); }
+  } catch(e) {}
+  render();
+})();
+</script>
+</body>
+</html>
