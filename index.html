@@ -11,7 +11,7 @@
 
 <script>
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "theme": "light",
+  "theme": "dark",
   "accentColor": "#b85c38"
 }/*EDITMODE-END*/;
 </script>
@@ -151,12 +151,12 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 }
 
 .portrait-frame {
-  width: 180px;
-  height: 180px;
-  border: 1px solid var(--faint);
+  width: 220px;
+  height: 220px;
+  border: none;
   overflow: hidden;
   flex-shrink: 0;
-  border-radius: 50%;
+  border-radius: 18px;
 }
 
 .portrait-frame img {
@@ -416,8 +416,19 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .pub-year { font-size: 1.1rem; }
 }
 </style>
+<template id="__bundler_thumbnail" data-bg-color="#0d0c0a">
+  <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="300" fill="#0d0c0a"/>
+    <text x="30" y="120" font-family="Georgia,serif" font-size="72" font-weight="900" fill="#f0ece3" letter-spacing="-3">Max</text>
+    <text x="30" y="185" font-family="Georgia,serif" font-size="72" font-weight="400" font-style="italic" fill="#8a8278" letter-spacing="-3">Siegel</text>
+    <line x1="30" y1="210" x2="370" y2="210" stroke="#2e2b25" stroke-width="3"/>
+    <rect x="30" y="225" width="60" height="8" rx="2" fill="#2e2b25"/>
+    <rect x="30" y="242" width="200" height="6" rx="2" fill="#1e1c18"/>
+    <rect x="30" y="256" width="160" height="6" rx="2" fill="#1e1c18"/>
+  </svg>
+</template>
 </head>
-<body class="light">
+<body class="dark">
 
 <!-- MASTHEAD -->
 <header class="masthead">
@@ -440,7 +451,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="portrait-placeholder" style="display:none">photo</div>
         </div>
-        <a class="masthead-email" href="mailto:maxs@mit.edu">maxs@mit.edu</a>
+        <a class="masthead-email" href="/cdn-cgi/l/email-protection#caa7abb2b98aa7a3bee4afaebf"><span class="__cf_email__" data-cfemail="9cf1fde4efdcf1f5e8b2f9f8e9">[email&#160;protected]</span></a>
       </div>
     </div>
 
@@ -470,8 +481,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   <label>Theme</label>
   <div class="tweak-btn-group">
-    <button class="tweak-btn active" data-theme="light" onclick="setTheme('light',this)">Light</button>
-    <button class="tweak-btn" data-theme="dark" onclick="setTheme('dark',this)">Dark</button>
+    <button class="tweak-btn" data-theme="light" onclick="setTheme('light',this)">Light</button>
+    <button class="tweak-btn active" data-theme="dark" onclick="setTheme('dark',this)">Dark</button>
   </div>
 
   <label>Accent</label>
@@ -484,7 +495,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── FLEEING LINKS ──
 (function() {
   const FLEE_RADIUS = 100;
@@ -494,7 +505,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   const links = [];
 
   function initLinks() {
-    document.querySelectorAll('.pub-pdf-tag').forEach(el => {
+    document.querySelectorAll('.pub-title-link, .pub-pdf-tag').forEach(el => {
       links.push({ el, ox: 0, oy: 0, cx: 0, cy: 0, vx: 0, vy: 0 });
       el.style.display = 'inline-block';
       el.style.position = 'relative';
@@ -593,7 +604,7 @@ function render() {
 }
 
 // ── TWEAKS ──
-let state = { theme: 'light', accentColor: '#b85c38' };
+let state = { theme: 'dark', accentColor: '#b85c38' };
 
 function setTheme(t, btn) {
   state.theme = t;
