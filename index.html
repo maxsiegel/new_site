@@ -13,7 +13,8 @@
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "theme": "dark",
   "accentColor": "#b85c38",
-  "adversarial": true
+  "adversarial": true,
+  "devilishPortrait": true
 }/*EDITMODE-END*/;
 </script>
 
@@ -174,7 +175,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   width: 220px;
   height: 80px;
   pointer-events: none;
-  opacity: 100;
+  opacity: 0;
   transform: translateY(10px);
   transition: opacity 400ms ease, transform 400ms ease;
 }
@@ -186,6 +187,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .portrait-wrap.devilish .portrait-frame {
   filter: saturate(1.4) hue-rotate(-15deg) contrast(1.1);
+  outline: 2px solid rgba(192, 57, 43, 0.75);
+  outline-offset: 3px;
   box-shadow: 0 0 32px rgba(192, 57, 43, 0.6), 0 0 64px rgba(192, 57, 43, 0.2);
 }
 
@@ -390,9 +393,32 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 }
 
 /* ── TWEAKS PANEL ── */
-#tweaks-panel {
+#tweaks-toggle {
   position: fixed;
   bottom: 24px; right: 24px;
+  background: var(--bg);
+  border: 1px solid var(--faint);
+  color: var(--mid);
+  padding: 7px 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  z-index: 9998;
+}
+
+#tweaks-toggle:hover,
+#tweaks-toggle.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+#tweaks-panel {
+  position: fixed;
+  bottom: 64px; right: 24px;
   background: var(--bg);
   border: 1px solid var(--faint);
   padding: 16px 18px;
@@ -403,6 +429,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   display: none;
   width: 210px;
 }
+
+#tweaks-panel.open { display: block; }
 
 #tweaks-panel h3 {
   font-family: var(--mono);
@@ -514,6 +542,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 </div>
 
 <!-- TWEAKS -->
+<button id="tweaks-toggle" type="button" onclick="toggleTweaksPanel()">Tweaks</button>
 <div id="tweaks-panel">
   <h3>Tweaks</h3>
 
@@ -527,6 +556,12 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   <div class="tweak-btn-group">
     <button class="tweak-btn active" id="adv-on" onclick="setAdversarial(true,this)">On</button>
     <button class="tweak-btn" id="adv-off" onclick="setAdversarial(false,this)">Off</button>
+  </div>
+
+  <label>Devilish portrait</label>
+  <div class="tweak-btn-group">
+    <button class="tweak-btn active" id="devilish-on" onclick="setDevilishPortrait(true,this)">On</button>
+    <button class="tweak-btn" id="devilish-off" onclick="setDevilishPortrait(false,this)">Off</button>
   </div>
 
   <label>Accent</label>
@@ -713,7 +748,7 @@ function render() {
 }
 
 // ── TWEAKS ──
-let state = { theme: 'dark', accentColor: '#b85c38', adversarial: true };
+let state = { ...TWEAK_DEFAULTS };
 
 function setTheme(t, btn) {
   state.theme = t;
@@ -729,27 +764,41 @@ function setAccent(hex, el) {
   persist();
 }
 
-function setDevilish(on) {
+function applyDevilishPortrait(on) {
   const wrap = document.querySelector('.portrait-wrap');
   if (wrap) wrap.classList.toggle('devilish', on);
 }
 
-function toggleAdversarial() {
-  const on = !state.adversarial;
-  state.adversarial = on;
+function syncAdversarialControls(on) {
   window.__adversarialEnabled = on;
-  document.getElementById('adv-status').textContent = on ? 'on' : 'off';
-  document.getElementById('adv-status').style.color = on ? 'var(--accent)' : 'var(--mid)';
+  const status = document.getElementById('adv-status');
+  if (status) {
+    status.textContent = on ? 'on' : 'off';
+    status.style.color = on ? 'var(--accent)' : 'var(--mid)';
+  }
   const btnOn = document.getElementById('adv-on'), btnOff = document.getElementById('adv-off');
   if (btnOn) { btnOn.classList.toggle('active', on); btnOff.classList.toggle('active', !on); }
-  setDevilish(on);
+}
+
+function syncDevilishPortraitControls(on) {
+  applyDevilishPortrait(on);
+  const btnOn = document.getElementById('devilish-on'), btnOff = document.getElementById('devilish-off');
+  if (btnOn) { btnOn.classList.toggle('active', on); btnOff.classList.toggle('active', !on); }
+}
+
+function toggleAdversarial() {
+  setAdversarial(!state.adversarial);
+}
+
+function setAdversarial(on) {
+  state.adversarial = on;
+  syncAdversarialControls(on);
   persist();
 }
 
-function setAdversarial(on, btn) {
-  state.adversarial = on;
-  document.querySelectorAll('#adv-on,#adv-off').forEach(b => b.classList.toggle('active', b === btn));
-  window.__adversarialEnabled = on;
+function setDevilishPortrait(on) {
+  state.devilishPortrait = on;
+  syncDevilishPortraitControls(on);
   persist();
 }
 
@@ -758,9 +807,24 @@ function persist() {
   localStorage.setItem('ms2-state', JSON.stringify(state));
 }
 
+function setTweaksPanelOpen(open) {
+  const panel = document.getElementById('tweaks-panel');
+  const toggle = document.getElementById('tweaks-toggle');
+  if (panel) panel.classList.toggle('open', open);
+  if (toggle) {
+    toggle.classList.toggle('active', open);
+    toggle.setAttribute('aria-expanded', String(open));
+  }
+}
+
+function toggleTweaksPanel() {
+  const panel = document.getElementById('tweaks-panel');
+  setTweaksPanelOpen(!panel?.classList.contains('open'));
+}
+
 window.addEventListener('message', e => {
-  if (e.data?.type === '__activate_edit_mode') document.getElementById('tweaks-panel').style.display = 'block';
-  else if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaks-panel').style.display = 'none';
+  if (e.data?.type === '__activate_edit_mode') setTweaksPanelOpen(true);
+  else if (e.data?.type === '__deactivate_edit_mode') setTweaksPanelOpen(false);
 });
 window.parent.postMessage({ type: '__edit_mode_available' }, '*');
 
@@ -768,18 +832,15 @@ window.parent.postMessage({ type: '__edit_mode_available' }, '*');
 (function init() {
   try {
     const saved = JSON.parse(localStorage.getItem('ms2-state') || '{}');
-    if (saved.theme) { state.theme = saved.theme; document.body.classList.toggle('dark', saved.theme === 'dark'); const btn = document.querySelector(`[data-theme="${saved.theme}"]`); if (btn) { document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('active', b === btn)); } }
-    if (saved.accentColor) { state.accentColor = saved.accentColor; document.documentElement.style.setProperty('--accent', saved.accentColor); }
-    if (saved.adversarial === false) {
-      state.adversarial = false;
-      window.__adversarialEnabled = false;
-      const on = document.getElementById('adv-on'), off = document.getElementById('adv-off');
-      if (on) { on.classList.remove('active'); off.classList.add('active'); }
-    }
+    state = { ...state, ...saved };
   } catch(e) {}
+  document.body.classList.toggle('dark', state.theme === 'dark');
+  const themeBtn = document.querySelector(`[data-theme="${state.theme}"]`);
+  if (themeBtn) { document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('active', b === themeBtn)); }
+  document.documentElement.style.setProperty('--accent', state.accentColor);
+  syncAdversarialControls(state.adversarial !== false);
+  syncDevilishPortraitControls(state.devilishPortrait !== false);
   render();
-  // apply devilish on load if adversarial is on
-  setTimeout(() => setDevilish(state.adversarial !== false), 200);
 })();
 </script>
 </body>
