@@ -13,8 +13,7 @@
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "theme": "dark",
   "accentColor": "#b85c38",
-  "adversarial": true,
-  "devilishPortrait": true
+  "adversarial": false
 }/*EDITMODE-END*/;
 </script>
 
@@ -23,35 +22,58 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 
 /* ── TOKENS ── */
 :root {
-  --bg:      #faf8f3;
-  --ink:     #0f0e0c;
-  --mid:     #4a4540;
-  --faint:   #c8c3ba;
-  --paper:   #f2ede4;
-  --accent:  #b85c38;
+  --bg:        #faf8f3;
+  --ink:       #0f0e0c;
+  --mid:       #4a4540;
+  --faint:     #c8c3ba;
+  --paper:     #f2ede4;
+  --surface:   rgba(247, 244, 237, 0.82);
+  --surface-edge: rgba(200, 195, 186, 0.55);
+  --accent:    #b85c38;
   --display: "Playfair Display", "Georgia", serif;
   --mono:    "DM Mono", "Courier New", monospace;
   --sans:    "DM Sans", system-ui, sans-serif;
 }
 body.dark {
-  --bg:    #0d0c0a;
-  --ink:   #f0ece3;
-  --mid:   #8a8278;
-  --faint: #2e2b25;
-  --paper: #141210;
+  --bg:           #07101e;
+  --ink:          #e8dcc0;
+  --mid:          #a89d85;
+  --faint:        #2a3850;
+  --paper:        #0d1828;
+  --surface:      rgba(10, 22, 38, 0.72);
+  --surface-edge: rgba(60, 80, 110, 0.45);
+  --accent:       #e6a16c;
 }
 
 /* ── BASE ── */
-html { scroll-behavior: smooth; }
-body {
+html {
+  scroll-behavior: smooth;
   background: var(--bg);
+}
+body {
+  background: transparent;
   color: var(--ink);
   font-family: var(--sans);
   font-size: 15px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  transition: background 300ms, color 300ms;
+  transition: color 300ms;
+  position: relative;
 }
+
+#wave-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+body.dark #wave-bg { opacity: 0.55; }
 
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
@@ -69,6 +91,11 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 32px;
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-left: 1px solid var(--surface-edge);
+  border-right: 1px solid var(--surface-edge);
 }
 
 .masthead-top {
@@ -80,14 +107,6 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   gap: 16px;
 }
 
-.masthead-controls {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
 .masthead-label {
   font-family: var(--mono);
   font-size: 10px;
@@ -95,25 +114,6 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--mid);
-}
-
-.masthead-control-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font: inherit;
-  color: inherit;
-  letter-spacing: inherit;
-  padding: 0;
-  text-transform: uppercase;
-}
-
-.masthead-control-btn span {
-  color: var(--accent);
-}
-
-.masthead-control-btn:hover {
-  color: var(--accent);
 }
 
 .masthead-name {
@@ -214,8 +214,6 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .portrait-wrap.devilish .portrait-frame {
   filter: saturate(1.4) hue-rotate(-15deg) contrast(1.1);
-  outline: 2px solid rgba(192, 57, 43, 0.75);
-  outline-offset: 3px;
   box-shadow: 0 0 32px rgba(192, 57, 43, 0.6), 0 0 64px rgba(192, 57, 43, 0.2);
 }
 
@@ -260,6 +258,11 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 32px 80px;
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-left: 1px solid var(--surface-edge);
+  border-right: 1px solid var(--surface-edge);
 }
 
 /* ── SECTION HEADER ── */
@@ -296,9 +299,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   display: grid;
   grid-template-columns: 72px 1fr;
   border-bottom: 1px solid var(--faint);
-  transition: background 120ms;
 }
-.pub-item:hover { background: var(--paper); }
 
 .pub-year-col {
   padding: 18px 16px 18px 0;
@@ -420,32 +421,9 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 }
 
 /* ── TWEAKS PANEL ── */
-#tweaks-toggle {
-  position: fixed;
-  bottom: 24px; right: 24px;
-  background: var(--bg);
-  border: 1px solid var(--faint);
-  color: var(--mid);
-  padding: 7px 10px;
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
-  z-index: 9998;
-}
-
-#tweaks-toggle:hover,
-#tweaks-toggle.active {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
 #tweaks-panel {
   position: fixed;
-  bottom: 64px; right: 24px;
+  bottom: 24px; right: 24px;
   background: var(--bg);
   border: 1px solid var(--faint);
   padding: 16px 18px;
@@ -456,8 +434,6 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   display: none;
   width: 210px;
 }
-
-#tweaks-panel.open { display: block; }
 
 #tweaks-panel h3 {
   font-family: var(--mono);
@@ -493,8 +469,6 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 /* ── RESPONSIVE ── */
 @media (max-width: 680px) {
   .masthead-inner, .page-body { padding-left: 18px; padding-right: 18px; }
-  .masthead-top { align-items: flex-start; flex-direction: column; }
-  .masthead-controls { justify-content: flex-start; gap: 10px 14px; }
   .masthead-bottom { grid-template-columns: 1fr; }
   .masthead-meta { flex-direction: row-reverse; align-items: center; }
   .portrait-frame { width: 72px; height: 72px; }
@@ -518,15 +492,23 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 <body class="dark">
 
 <!-- MASTHEAD -->
+<canvas id="wave-bg"></canvas>
+
 <header class="masthead">
   <div class="masthead-inner">
 
     <div class="masthead-top">
       <span class="masthead-label">MIT · Brain &amp; Cognitive Sciences · Computational Cognitive Science Group</span>
-      <span class="masthead-label masthead-controls">
-        <button id="theme-toggle" class="masthead-control-btn" onclick="toggleTheme()">theme: <span id="theme-status">dark</span></button>
-        <button id="adv-toggle" class="masthead-control-btn" onclick="toggleAdversarial()">adversarial mode: <span id="adv-status">on</span></button>
-        <button id="devilish-toggle" class="masthead-control-btn" onclick="toggleDevilishPortrait()">devilish mode: <span id="devilish-status">on</span></button>
+      <span class="masthead-label" style="display:flex;align-items:center;gap:14px;">
+        <span style="display:flex;align-items:center;gap:6px;">
+          <span style="text-transform:uppercase;">wave</span>
+          <input type="range" id="wave-strength" min="0" max="3" step="0.05" value="1" style="width:70px;accent-color:var(--accent);vertical-align:middle;">
+        </span>
+        <span style="display:flex;align-items:center;gap:6px;">
+          <span style="text-transform:uppercase;">grid</span>
+          <input type="number" id="wave-pixel" min="2" max="16" step="1" value="6" style="width:38px;font:inherit;color:inherit;background:transparent;border:1px solid var(--faint);padding:1px 3px;text-align:center;">
+        </span>
+        <button id="adv-toggle" onclick="toggleAdversarial()" style="background:none;border:none;cursor:pointer;font:inherit;color:inherit;letter-spacing:inherit;padding:0;text-transform:uppercase;">adversarial mode: <span id="adv-status" style="color:var(--accent)">on</span></button>
       </span>
     </div>
 
@@ -534,7 +516,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
     <div class="masthead-bottom">
       <p class="masthead-bio">
-        <strong>Research Scientist.</strong> I study how humans perceive the physical world — using computational modeling, behavioral experiments, and the lens of Bayesian inference. Member of the <a href="https://cocosci.mit.edu">Computational Cognitive Science group</a> at MIT.
+        <strong>Research Scientist.</strong> I study how humans understand the physical and social world — using computational modeling, behavioral experiments, and the lens of Bayesian inference. Member of the <a href="https://cocosci.mit.edu">Computational Cognitive Science group</a> at MIT.
       </p>
       <div class="masthead-meta">
         <div class="portrait-wrap">
@@ -573,9 +555,20 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 </div>
 
 <!-- TWEAKS -->
-<button id="tweaks-toggle" type="button" onclick="toggleTweaksPanel()">Tweaks</button>
 <div id="tweaks-panel">
   <h3>Tweaks</h3>
+
+  <label>Theme</label>
+  <div class="tweak-btn-group">
+    <button class="tweak-btn" data-theme="light" onclick="setTheme('light',this)">Light</button>
+    <button class="tweak-btn active" data-theme="dark" onclick="setTheme('dark',this)">Dark</button>
+  </div>
+
+  <label>Adversarial mode</label>
+  <div class="tweak-btn-group">
+    <button class="tweak-btn active" id="adv-on" onclick="setAdversarial(true,this)">On</button>
+    <button class="tweak-btn" id="adv-off" onclick="setAdversarial(false,this)">Off</button>
+  </div>
 
   <label>Accent</label>
   <div class="color-swatches">
@@ -588,6 +581,305 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 </div>
 
 <script>
+// ── HOKUSAI WAVE BACKGROUND (real wave-equation simulation) ──
+(function() {
+  const canvas = document.getElementById('wave-bg');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let PIXEL_SIZE = 6;
+  let W, H, PW, PH;
+
+  // Each layer has its own 1D height field with real wave-equation dynamics.
+  // h[i] is height at column i; updated via h_new = 2h - h_old + c²(h[i+1]+h[i-1]-2h[i])
+  // We integrate height in "vertical pixel" units (small).
+  // Layers: far (back), mid, big (front).
+  const layers = [];
+
+  function makeLayer(opts) {
+    const w = PW;
+    return {
+      ...opts,
+      h:     new Float32Array(w),
+      hOld:  new Float32Array(w),
+      hNew:  new Float32Array(w),
+      width: w,
+    };
+  }
+
+  function initLayers() {
+    layers.length = 0;
+    // Scale all spatial parameters as fractions of grid width so behavior
+    // is consistent across screen sizes.
+    const baseScale = PW / 200;  // reference: 200-cell-wide grid
+    layers.push(makeLayer({
+      name: 'far',
+      base: Math.floor(PH * 0.52),
+      c2: 0.20,
+      damping: 0.998,
+      mouseStrength: 1.2,
+      vertRange: Math.round(14 * baseScale),
+      kernelHalfWidth: Math.max(3, Math.round(4 * baseScale)),
+      kernelSigma: 6 * baseScale * baseScale,
+    }));
+    layers.push(makeLayer({
+      name: 'mid',
+      base: Math.floor(PH * 0.62),
+      c2: 0.28,
+      damping: 0.996,
+      mouseStrength: 2.0,
+      vertRange: Math.round(18 * baseScale),
+      kernelHalfWidth: Math.max(4, Math.round(5 * baseScale)),
+      kernelSigma: 6 * baseScale * baseScale,
+    }));
+    layers.push(makeLayer({
+      name: 'big',
+      base: Math.floor(PH * 0.78),
+      c2: 0.32,
+      damping: 0.995,
+      mouseStrength: 3.0,
+      vertRange: Math.round(24 * baseScale),
+      kernelHalfWidth: Math.max(5, Math.round(6 * baseScale)),
+      kernelSigma: 6 * baseScale * baseScale,
+    }));
+  }
+
+  // Mouse interaction
+  let mouseActive = false;
+  let mousePX = -999, mousePY = -999;
+  let lastMousePX = -999, lastMousePY = -999;
+  let mouseVX = 0, mouseVY = 0;
+
+  function resize() {
+    PW = Math.ceil(window.innerWidth  / PIXEL_SIZE);
+    PH = Math.ceil(window.innerHeight / PIXEL_SIZE);
+    canvas.width  = PW;
+    canvas.height = PH;
+    W = window.innerWidth;
+    H = window.innerHeight;
+    initLayers();
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  // expose for slider
+  window.__setPixelSize = (n) => { PIXEL_SIZE = n; resize(); };
+
+  window.addEventListener('mousemove', e => {
+    const px = e.clientX / PIXEL_SIZE;
+    const py = e.clientY / PIXEL_SIZE;
+    if (mouseActive) {
+      mouseVX = px - lastMousePX;
+      mouseVY = py - lastMousePY;
+    }
+    lastMousePX = px;
+    lastMousePY = py;
+    mousePX = px;
+    mousePY = py;
+    mouseActive = true;
+  });
+  window.addEventListener('mouseleave', () => { mouseActive = false; });
+  window.addEventListener('click', e => {
+    const px = e.clientX / PIXEL_SIZE;
+    const py = e.clientY / PIXEL_SIZE;
+    const userMult = (window.__interactionStrength != null ? window.__interactionStrength : 1);
+    for (const L of layers) {
+      const dy = Math.abs(py - L.base);
+      if (dy < L.vertRange * 2) {
+        const ix = Math.round(px);
+        if (ix < 1 || ix >= L.width - 1) continue;
+        const strength = (1 - dy / (L.vertRange * 2)) * 4 * userMult;
+        const halfW = L.kernelHalfWidth;
+        const sigma = L.kernelSigma;
+        for (let k = -halfW; k <= halfW; k++) {
+          const i = ix + k;
+          if (i < 1 || i >= L.width - 1) continue;
+          const falloff = Math.exp(-k*k / sigma);
+          L.h[i] += strength * falloff;
+        }
+      }
+    }
+  });
+
+  // Static "great wave curl" silhouette — Hokusai's iconic shape.
+  // This is the baseline shape of the big wave; the simulation adds ripples on top.
+  function bigWaveBaseline(x) {
+    let h = 0;
+    const curlCenter = 0.28;
+    const curlWidth  = 0.22;
+    const d = (x - curlCenter) / curlWidth;
+    if (Math.abs(d) < 1.6) {
+      h -= Math.exp(-d * d * 1.2) * 0.45 * PH;
+    }
+    return h;
+  }
+  function midWaveBaseline(x) {
+    const c = 0.7;
+    const d = (x - c) / 0.18;
+    if (Math.abs(d) < 1.5) return -Math.exp(-d * d * 1.5) * 0.18 * PH;
+    return 0;
+  }
+
+  // Hokusai palette
+  const PAL = {
+    sky:       '#e8dcc0',
+    skyDeep:   '#c9b890',
+    fuji:      '#7a6a52',
+    waveDeep:  '#0a2540',
+    waveMid:   '#1a4870',
+    waveLight: '#3a7aa0',
+    waveTeal:  '#5a9ab8',
+    foam:      '#f0e8d8',
+    foamShade: '#c8c0b0',
+  };
+
+  function stepLayer(L) {
+    const { h, hOld, hNew, width, c2, damping } = L;
+    // wave equation (free boundaries via clamp)
+    for (let i = 1; i < width - 1; i++) {
+      const lap = h[i+1] + h[i-1] - 2 * h[i];
+      hNew[i] = (2 * h[i] - hOld[i] + c2 * lap) * damping;
+    }
+    // boundaries: reflect (copy interior)
+    hNew[0] = hNew[1];
+    hNew[width-1] = hNew[width-2];
+    // rotate buffers
+    L.hOld = h;
+    L.h = hNew;
+    L.hNew = hOld;
+  }
+
+  function applyMouseToLayer(L) {
+    if (!mouseActive) return;
+    const dy = Math.abs(mousePY - L.base);
+    if (dy >= L.vertRange) return;
+    const ix = Math.round(mousePX);
+    if (ix < 1 || ix >= L.width - 1) return;
+    const proximity = 1 - dy / L.vertRange;
+    const speed = Math.min(8, Math.sqrt(mouseVX*mouseVX + mouseVY*mouseVY));
+    const userMult = (window.__interactionStrength != null ? window.__interactionStrength : 1);
+    const push = proximity * (0.25 + speed * 0.25) * L.mouseStrength * userMult;
+    const halfW = L.kernelHalfWidth;
+    const sigma = L.kernelSigma;
+    for (let k = -halfW; k <= halfW; k++) {
+      const i = ix + k;
+      if (i < 1 || i >= L.width - 1) continue;
+      const falloff = Math.exp(-k*k / sigma);
+      L.h[i] += push * falloff;
+    }
+  }
+
+  function frame(t) {
+    const time = t / 1000;
+    mouseVX *= 0.85;
+    mouseVY *= 0.85;
+
+    // Step physics for each layer (apply mouse first, then integrate)
+    for (const L of layers) {
+      applyMouseToLayer(L);
+      stepLayer(L);
+    }
+
+    // ── SKY (banded) ──
+    const skyBaseline = Math.floor(PH * 0.45);
+    const skyColors = ['#e8dcc0', '#dfd0b0', '#d4c4a0', '#c9b890', '#bda980'];
+    for (let y = 0; y < skyBaseline; y++) {
+      const r = y / skyBaseline;
+      ctx.fillStyle = skyColors[Math.floor(r * 5)] || skyColors[4];
+      ctx.fillRect(0, y, PW, 1);
+    }
+
+    // ── MT FUJI ──
+    const fujiBase = skyBaseline;
+    const fujiPeakX = Math.floor(PW * 0.58);
+    const fujiPeakY = Math.floor(PH * 0.30);
+    const fujiHalfWidth = Math.floor(PH * 0.16);
+    ctx.fillStyle = PAL.fuji;
+    for (let y = fujiPeakY; y <= fujiBase; y++) {
+      const progress = (y - fujiPeakY) / (fujiBase - fujiPeakY);
+      const w = Math.floor(progress * fujiHalfWidth);
+      ctx.fillRect(fujiPeakX - w, y, w * 2, 1);
+    }
+    ctx.fillStyle = PAL.foam;
+    for (let y = fujiPeakY; y <= fujiPeakY + Math.floor(fujiHalfWidth * 0.35); y++) {
+      const progress = (y - fujiPeakY) / (fujiBase - fujiPeakY);
+      const w = Math.floor(progress * fujiHalfWidth * 0.85);
+      const jitter = Math.floor(Math.sin(y * 2.3) * 1.5);
+      ctx.fillRect(fujiPeakX - w + jitter, y, w * 2 - jitter, 1);
+    }
+
+    // ── FAR LAYER ──
+    const far = layers[0];
+    for (let px = 0; px < PW; px++) {
+      const surfY = Math.floor(far.base + far.h[px] * 0.5);
+      ctx.fillStyle = PAL.waveTeal;
+      ctx.fillRect(px, surfY, 1, 2);
+      ctx.fillStyle = PAL.waveLight;
+      ctx.fillRect(px, surfY + 2, 1, 3);
+    }
+
+    // ── MID LAYER ──
+    const mid = layers[1];
+    for (let px = 0; px < PW; px++) {
+      const x = px / PW;
+      const surfY = Math.floor(mid.base + midWaveBaseline(x) + mid.h[px] * 0.7);
+      // foam crest where slope is steep
+      const hLeft = px > 0 ? mid.h[px-1] : mid.h[px];
+      const baseSlope = px > 0 ? midWaveBaseline((px-1)/PW) - midWaveBaseline(x) : 0;
+      const slope = (mid.h[px] - hLeft) * 0.7 - baseSlope;
+      if (slope < -0.5) {
+        ctx.fillStyle = PAL.foam;
+        ctx.fillRect(px, surfY - 1, 1, 2);
+      }
+      // wave body
+      for (let y = surfY; y < PH; y++) {
+        const depth = (y - surfY) / (PH - surfY);
+        let c;
+        if (depth < 0.15) c = PAL.waveLight;
+        else if (depth < 0.4) c = PAL.waveMid;
+        else c = PAL.waveDeep;
+        ctx.fillStyle = c;
+        ctx.fillRect(px, y, 1, 1);
+      }
+    }
+
+    // ── BIG WAVE (with curl baseline + sim ripples) ──
+    const big = layers[2];
+    const surfYs = new Int16Array(PW);
+    for (let px = 0; px < PW; px++) {
+      const x = px / PW;
+      const baselineH = bigWaveBaseline(x);
+      const surfY = Math.floor(big.base + baselineH + big.h[px]);
+      surfYs[px] = surfY;
+      // wave body
+      for (let y = surfY; y < PH; y++) {
+        const depth = (y - surfY) / Math.max(1, PH - surfY);
+        let c;
+        if (depth < 0.05) c = PAL.waveTeal;
+        else if (depth < 0.18) c = PAL.waveLight;
+        else if (depth < 0.45) c = PAL.waveMid;
+        else c = PAL.waveDeep;
+        ctx.fillStyle = c;
+        ctx.fillRect(px, y, 1, 1);
+      }
+    }
+    // foam crests on big wave (from real simulation slope)
+    for (let px = 1; px < PW; px++) {
+      const slope = surfYs[px] - surfYs[px-1];
+      if (slope < -1) {
+        const thickness = Math.min(4, -slope);
+        ctx.fillStyle = PAL.foam;
+        ctx.fillRect(px, surfYs[px] - 1, 1, thickness);
+        ctx.fillStyle = PAL.foamShade;
+        ctx.fillRect(px, surfYs[px] + thickness - 1, 1, 1);
+      }
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  requestAnimationFrame(frame);
+})();
+
 // ── FLEEING LINKS ──
 (function() {
   const FLEE_RADIUS = 100;
@@ -761,27 +1053,13 @@ function render() {
 }
 
 // ── TWEAKS ──
-let state = { ...TWEAK_DEFAULTS };
+let state = { theme: 'dark', accentColor: '#b85c38', adversarial: true };
 
-function syncThemeControls(theme) {
-  document.body.classList.toggle('dark', theme === 'dark');
-  const status = document.getElementById('theme-status');
-  if (status) {
-    status.textContent = theme;
-    status.style.color = 'var(--accent)';
-  }
-  const themeBtn = document.querySelector(`[data-theme="${theme}"]`);
-  if (themeBtn) { document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('active', b === themeBtn)); }
-}
-
-function setTheme(t) {
+function setTheme(t, btn) {
   state.theme = t;
-  syncThemeControls(t);
+  document.body.classList.toggle('dark', t === 'dark');
+  document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('active', b === btn));
   persist();
-}
-
-function toggleTheme() {
-  setTheme(state.theme === 'dark' ? 'light' : 'dark');
 }
 
 function setAccent(hex, el) {
@@ -791,51 +1069,28 @@ function setAccent(hex, el) {
   persist();
 }
 
-function applyDevilishPortrait(on) {
+function setDevilish(on) {
   const wrap = document.querySelector('.portrait-wrap');
   if (wrap) wrap.classList.toggle('devilish', on);
 }
 
-function syncAdversarialControls(on) {
+function toggleAdversarial() {
+  const on = !state.adversarial;
+  state.adversarial = on;
   window.__adversarialEnabled = on;
-  const status = document.getElementById('adv-status');
-  if (status) {
-    status.textContent = on ? 'on' : 'off';
-    status.style.color = on ? 'var(--accent)' : 'var(--mid)';
-  }
+  document.getElementById('adv-status').textContent = on ? 'on' : 'off';
+  document.getElementById('adv-status').style.color = on ? 'var(--accent)' : 'var(--mid)';
   const btnOn = document.getElementById('adv-on'), btnOff = document.getElementById('adv-off');
   if (btnOn) { btnOn.classList.toggle('active', on); btnOff.classList.toggle('active', !on); }
+  setDevilish(on);
+  persist();
 }
 
-function syncDevilishPortraitControls(on) {
-  applyDevilishPortrait(on);
-  const status = document.getElementById('devilish-status');
-  if (status) {
-    status.textContent = on ? 'on' : 'off';
-    status.style.color = on ? 'var(--accent)' : 'var(--mid)';
-  }
-  const btnOn = document.getElementById('devilish-on'), btnOff = document.getElementById('devilish-off');
-  if (btnOn) { btnOn.classList.toggle('active', on); btnOff.classList.toggle('active', !on); }
-}
-
-function toggleAdversarial() {
-  setAdversarial(!state.adversarial);
-}
-
-function setAdversarial(on) {
+function setAdversarial(on, btn) {
   state.adversarial = on;
-  syncAdversarialControls(on);
+  document.querySelectorAll('#adv-on,#adv-off').forEach(b => b.classList.toggle('active', b === btn));
+  window.__adversarialEnabled = on;
   persist();
-}
-
-function setDevilishPortrait(on) {
-  state.devilishPortrait = on;
-  syncDevilishPortraitControls(on);
-  persist();
-}
-
-function toggleDevilishPortrait() {
-  setDevilishPortrait(!state.devilishPortrait);
 }
 
 function persist() {
@@ -843,24 +1098,9 @@ function persist() {
   localStorage.setItem('ms2-state', JSON.stringify(state));
 }
 
-function setTweaksPanelOpen(open) {
-  const panel = document.getElementById('tweaks-panel');
-  const toggle = document.getElementById('tweaks-toggle');
-  if (panel) panel.classList.toggle('open', open);
-  if (toggle) {
-    toggle.classList.toggle('active', open);
-    toggle.setAttribute('aria-expanded', String(open));
-  }
-}
-
-function toggleTweaksPanel() {
-  const panel = document.getElementById('tweaks-panel');
-  setTweaksPanelOpen(!panel?.classList.contains('open'));
-}
-
 window.addEventListener('message', e => {
-  if (e.data?.type === '__activate_edit_mode') setTweaksPanelOpen(true);
-  else if (e.data?.type === '__deactivate_edit_mode') setTweaksPanelOpen(false);
+  if (e.data?.type === '__activate_edit_mode') document.getElementById('tweaks-panel').style.display = 'block';
+  else if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaks-panel').style.display = 'none';
 });
 window.parent.postMessage({ type: '__edit_mode_available' }, '*');
 
@@ -868,13 +1108,30 @@ window.parent.postMessage({ type: '__edit_mode_available' }, '*');
 (function init() {
   try {
     const saved = JSON.parse(localStorage.getItem('ms2-state') || '{}');
-    state = { ...state, ...saved };
+    if (saved.theme) { state.theme = saved.theme; document.body.classList.toggle('dark', saved.theme === 'dark'); const btn = document.querySelector(`[data-theme="${saved.theme}"]`); if (btn) { document.querySelectorAll('[data-theme]').forEach(b => b.classList.toggle('active', b === btn)); } }
+    if (saved.accentColor) { state.accentColor = saved.accentColor; document.documentElement.style.setProperty('--accent', saved.accentColor); }
+    if (saved.adversarial === false) {
+      state.adversarial = false;
+      window.__adversarialEnabled = false;
+      const on = document.getElementById('adv-on'), off = document.getElementById('adv-off');
+      if (on) { on.classList.remove('active'); off.classList.add('active'); }
+    }
   } catch(e) {}
-  syncThemeControls(state.theme);
-  document.documentElement.style.setProperty('--accent', state.accentColor);
-  syncAdversarialControls(state.adversarial !== false);
-  syncDevilishPortraitControls(state.devilishPortrait !== false);
   render();
+  setTimeout(() => setDevilish(state.adversarial !== false), 200);
+  const slider = document.getElementById('wave-strength');
+  if (slider) {
+    window.__interactionStrength = parseFloat(slider.value);
+    slider.addEventListener('input', () => {
+      window.__interactionStrength = parseFloat(slider.value);
+    });
+  }
+  const pxSlider = document.getElementById('wave-pixel');
+  if (pxSlider) {
+    pxSlider.addEventListener('input', () => {
+      if (window.__setPixelSize) window.__setPixelSize(parseInt(pxSlider.value, 10));
+    });
+  }
 })();
 </script>
 </body>
