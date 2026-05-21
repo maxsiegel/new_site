@@ -4,6 +4,7 @@ function preload(impath) {
 }
 
 preload('assets/laser.png');
+preload('assets/ripple.png')
 
 var html = document.documentElement;
 

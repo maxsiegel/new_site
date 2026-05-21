@@ -12,6 +12,15 @@
     box-sizing: border-box;
 }
 
+.ripple-bg {
+    display: block;
+    margin: 8px auto 32px;
+    width: 420px;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+}
+
+
 html,
 body {
     margin: 0;
@@ -60,14 +69,21 @@ main > section {
 }
 
 .contact-row {
-    margin: 16px 0 4px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
+    margin: 10px 0 4px;
 }
 
-.contact-link,
+.contact-link {
+    color: var(--accent);
+    font-size: 0.95rem;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+    font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
+}
+
+.contact-link:hover {
+    color: var(--accent-strong);
+}
+
 .jump-link {
     display: inline-block;
     padding: 6px 10px;
@@ -82,7 +98,6 @@ main > section {
     transition: border-color 120ms ease, color 120ms ease;
 }
 
-.contact-link:hover,
 .jump-link:hover {
     color: var(--accent-strong);
     border-color: var(--accent);
@@ -134,6 +149,7 @@ main > section {
     font-size: 0.82rem;
     font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
 }
+
 
 .publication-list {
     margin: 0;
