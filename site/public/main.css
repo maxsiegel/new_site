@@ -76,11 +76,7 @@ main > section + section {
 }
 
 .intro::after {
-    content: "";
-    display: block;
-    width: 30%;
-    margin: 1rem auto 0;
-    border-bottom: 1px solid var(--rule);
+    content: none;
 }
 
 .portrait {
