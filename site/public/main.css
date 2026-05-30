@@ -28,7 +28,28 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-main {
+img {
+    display: block;
+    max-width: 100%;
+}
+
+.skip-link {
+    position: absolute;
+    left: 12px;
+    top: -40px;
+    padding: 8px 12px;
+    background: var(--text);
+    color: var(--paper-bg);
+    text-decoration: none;
+}
+
+.skip-link:focus-visible {
+    top: 12px;
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+}
+
+.page {
     width: min(1040px, calc(100% - 72px));
     margin: 34px auto 58px;
     background: var(--paper-bg);
@@ -36,7 +57,7 @@ main {
     padding: clamp(2rem, 4vw, 4.4rem);
 }
 
-main > section + section {
+.page > section + section {
     margin-top: 2.9rem;
     padding-top: 1.65rem;
     border-top: 1px solid var(--rule);
@@ -56,27 +77,15 @@ main > section + section {
     font-variant-caps: normal;
 }
 
-.author-line,
 .affiliation-line,
 .opening-head {
     margin: 0;
-}
-
-.author-line {
-    margin-top: 0.55rem;
-    font-size: 1rem;
-    font-variant-caps: small-caps;
-    letter-spacing: 0.05em;
 }
 
 .affiliation-line {
     margin-top: 0.25rem;
     color: var(--muted);
     font-size: 0.9rem;
-}
-
-.intro::after {
-    content: none;
 }
 
 .portrait {
@@ -86,6 +95,7 @@ main > section + section {
 .portrait img {
     width: min(180px, 24vw);
     height: auto;
+    margin: 0 auto;
     border: 1px solid #9f9f9f;
     padding: 0.12rem;
     background: #fff;
@@ -114,10 +124,14 @@ main > section + section {
     font-size: 0.86rem;
 }
 
+.contact-label {
+    margin-right: 0.35rem;
+    font-variant-caps: small-caps;
+    letter-spacing: 0.05em;
+}
+
 .contact-link,
-.publication-title-link,
-.publication-supplementary,
-.publication-code {
+.publication-title-link {
     color: var(--link);
     text-decoration-color: currentColor;
     text-decoration-thickness: 0.06em;
@@ -125,16 +139,12 @@ main > section + section {
 }
 
 .contact-link:hover,
-.publication-title-link:hover,
-.publication-supplementary:hover,
-.publication-code:hover {
+.publication-title-link:hover {
     color: var(--link-hover);
 }
 
 .contact-link:focus-visible,
-.publication-title-link:focus-visible,
-.publication-supplementary:focus-visible,
-.publication-code:focus-visible {
+.publication-title-link:focus-visible {
     outline: 2px solid var(--link);
     outline-offset: 2px;
 }
@@ -161,40 +171,18 @@ main > section + section {
     font-size: 0.8rem;
 }
 
-.publications {
-    column-gap: 0;
-}
-
-.publication-list {
-    margin: 0;
-    padding-left: 1.65rem;
-    list-style: decimal;
-}
-
-.publication-item {
-    margin: 0 0 0.95rem;
-    padding: 0;
-    border: 0;
-}
-
-.publication,
-.publication-item {
-    font-size: 0.96rem;
-}
-
 .publication {
     margin: 0 0 0.72rem;
     text-indent: -1.15rem;
     padding-left: 1.15rem;
+    font-size: 0.96rem;
 }
 
 .publication-authors,
 .publication-year,
 .publication-title,
 .publication-title-link,
-.publication-venue,
-.publication-supplementary,
-.publication-code {
+.publication-venue {
     font-size: inherit;
 }
 
@@ -216,26 +204,8 @@ main > section + section {
     font-style: italic;
 }
 
-.publication-supplementary,
-.publication-code {
-    margin-left: 0.35rem;
-    font-size: 0.92rem;
-}
-
-.publication-meta,
-.publication-title-line,
-.eyebrow,
-.jump-link {
-    display: none;
-}
-
 .ripple-bg {
-    display: block;
-    width: min(380px, 32vw);
-    margin: 0 auto 1.6rem;
-    opacity: 0.06;
-    mix-blend-mode: multiply;
-    filter: grayscale(1);
+    display: none;
 }
 
 @media (max-width: 900px) {
@@ -243,7 +213,7 @@ main > section + section {
         font-size: 18px;
     }
 
-    main {
+    .page {
         width: calc(100% - 18px);
         margin: 10px auto 26px;
         padding: 1rem 0.95rem 1.35rem;
@@ -255,13 +225,6 @@ main > section + section {
         font-size: clamp(1.7rem, 8vw, 2.4rem);
     }
 
-    .author-line,
-    .affiliation-line,
-    .opening-head,
-    .contact-row {
-        text-indent: 0;
-    }
-
     .publication {
         text-indent: 0;
         padding-left: 0;
@@ -269,10 +232,5 @@ main > section + section {
 
     .bio {
         text-indent: 0;
-    }
-
-    .ripple-bg {
-        width: min(320px, 64vw);
-        margin-bottom: 1.2rem;
     }
 }

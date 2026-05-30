@@ -3,8 +3,8 @@ function preload(impath) {
     img.src = impath;
 }
 
-preload('assets/laser.png');
-preload('assets/ripple.png')
+preload("assets/laser.png");
+preload("assets/ripple.png");
 
 var html = document.documentElement;
 
