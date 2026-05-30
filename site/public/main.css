@@ -1,25 +1,17 @@
 :root {
-    --page-bg: #f6f5f1;
-    --card-bg: #ffffff;
-    --card-border: #d4d7da;
-    --text: #1f2225;
-    --muted: #5f6770;
-    --accent: #1e4d6a;
-    --accent-strong: #173c52;
+    --page-bg: #ffffff;
+    --paper-bg: #ffffff;
+    --rule: #b8b8b8;
+    --rule-faint: #d9d9d9;
+    --text: #111111;
+    --muted: #5b5b5b;
+    --link: #111111;
+    --link-hover: #3e3e3e;
 }
 
 * {
     box-sizing: border-box;
 }
-
-.ripple-bg {
-    display: block;
-    margin: 8px auto 32px;
-    width: 420px;
-    opacity: 0.35;
-    mix-blend-mode: multiply;
-}
-
 
 html,
 body {
@@ -28,200 +20,263 @@ body {
 }
 
 body {
-    font-family: "Charter", "Palatino Linotype", "Book Antiqua", Palatino, serif;
-    color: var(--text);
-    line-height: 1.6;
     background: var(--page-bg);
+    color: var(--text);
+    font-family: "Old Standard", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, "Times New Roman", serif;
+    font-size: 18px;
+    line-height: 1.48;
+    text-rendering: optimizeLegibility;
 }
 
 main {
-    width: min(940px, calc(100% - 28px));
-    margin: 22px auto 44px;
-    display: grid;
-    gap: 12px;
+    width: min(1040px, calc(100% - 72px));
+    margin: 34px auto 58px;
+    background: var(--paper-bg);
+    border: 0;
+    padding: clamp(2rem, 4vw, 4.4rem);
 }
 
-main > section {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 6px;
-    padding: 22px 24px;
+main > section + section {
+    margin-top: 2.9rem;
+    padding-top: 1.65rem;
+    border-top: 1px solid var(--rule);
 }
 
 .intro {
     text-align: center;
 }
 
-.eyebrow {
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 700;
-    color: var(--muted);
-    font-size: 0.7rem;
-    font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
-}
-
 .title {
-    margin: 7px 0 6px;
-    font-size: clamp(1.7rem, 2vw, 2.3rem);
-    line-height: 1.2;
+    max-width: 10.5em;
+    margin: 0 auto 0.2rem;
+    font-size: clamp(1.8rem, 3vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: 0;
+    font-variant-caps: normal;
 }
 
-.contact-row {
-    margin: 10px 0 4px;
+.author-line,
+.affiliation-line,
+.opening-head {
+    margin: 0;
 }
 
-.contact-link {
-    color: var(--accent);
-    font-size: 0.95rem;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.15em;
-    font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
+.author-line {
+    margin-top: 0.55rem;
+    font-size: 1rem;
+    font-variant-caps: small-caps;
+    letter-spacing: 0.05em;
 }
 
-.contact-link:hover {
-    color: var(--accent-strong);
-}
-
-.jump-link {
-    display: inline-block;
-    padding: 6px 10px;
-    border-radius: 4px;
-    border: 1px solid var(--card-border);
-    background: #fff;
-    color: var(--accent);
-    font-weight: 600;
+.affiliation-line {
+    margin-top: 0.25rem;
+    color: var(--muted);
     font-size: 0.9rem;
-    text-decoration: none;
-    font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
-    transition: border-color 120ms ease, color 120ms ease;
 }
 
-.jump-link:hover {
-    color: var(--accent-strong);
-    border-color: var(--accent);
-}
-
-.contact-link:focus-visible,
-.jump-link:focus-visible,
-.publication-title-link:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+.intro::after {
+    content: "";
+    display: block;
+    width: 30%;
+    margin: 1rem auto 0;
+    border-bottom: 1px solid var(--rule);
 }
 
 .portrait {
-    margin: 14px 0;
+    margin: 1rem 0 1rem;
 }
 
 .portrait img {
-    width: min(300px, 38vw);
+    width: min(180px, 24vw);
     height: auto;
-    border-radius: 6px;
-    border: 1px solid var(--card-border);
+    border: 1px solid #9f9f9f;
+    padding: 0.12rem;
+    background: #fff;
+    filter: grayscale(1) contrast(1.12);
+}
+
+.opening-head {
+    margin-top: 0.7rem;
+    margin-bottom: 0.45rem;
+    font-size: 0.92rem;
+    font-weight: 400;
+    font-variant-caps: small-caps;
+    letter-spacing: 0.06em;
 }
 
 .bio {
-    margin: 0 auto;
-    max-width: 74ch;
+    max-width: 39em;
+    margin: 0.4rem auto 0;
     text-align: left;
-    font-size: 1rem;
+    text-indent: 1.5em;
+}
+
+.contact-row {
+    margin-top: 0.7rem;
+    color: var(--muted);
+    font-size: 0.86rem;
+}
+
+.contact-link,
+.publication-title-link,
+.publication-supplementary,
+.publication-code {
+    color: var(--link);
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.14em;
+}
+
+.contact-link:hover,
+.publication-title-link:hover,
+.publication-supplementary:hover,
+.publication-code:hover {
+    color: var(--link-hover);
+}
+
+.contact-link:focus-visible,
+.publication-title-link:focus-visible,
+.publication-supplementary:focus-visible,
+.publication-code:focus-visible {
+    outline: 2px solid var(--link);
+    outline-offset: 2px;
 }
 
 .section-head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 14px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid var(--card-border);
-    padding-bottom: 8px;
+    display: block;
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.4rem;
 }
 
 .section-head h2 {
     margin: 0;
-    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    text-align: center;
+    font-size: 0.96rem;
+    font-weight: 400;
+    font-variant-caps: small-caps;
+    letter-spacing: 0.06em;
 }
 
 .publication-note {
-    margin: 0;
+    margin: 0.35rem 0 0;
+    text-align: center;
     color: var(--muted);
-    font-size: 0.82rem;
-    font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
+    font-size: 0.8rem;
 }
 
+.publications {
+    column-gap: 0;
+}
 
 .publication-list {
     margin: 0;
-    padding-left: 1.3rem;
+    padding-left: 1.65rem;
     list-style: decimal;
 }
 
 .publication-item {
-    padding: 8px 0 10px 0.2rem;
-    border-bottom: 1px solid #eceff2;
+    margin: 0 0 0.95rem;
+    padding: 0;
+    border: 0;
+}
+
+.publication,
+.publication-item {
+    font-size: 0.96rem;
+}
+
+.publication {
+    margin: 0 0 0.72rem;
+    text-indent: -1.15rem;
+    padding-left: 1.15rem;
 }
 
 .publication-authors,
-.publication-meta,
-.publication-title-line {
-    margin: 0;
+.publication-year,
+.publication-title,
+.publication-title-link,
+.publication-venue,
+.publication-supplementary,
+.publication-code {
+    font-size: inherit;
 }
 
 .publication-authors {
-    font-weight: 600;
+    font-weight: 400;
 }
 
-.publication-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 1px;
-    margin-bottom: 3px;
+.publication-year,
+.publication-venue {
     color: var(--muted);
-    font-size: 0.9rem;
-    font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
 }
 
-.publication-year {
-    font-weight: 700;
+.publication-venue {
+    font-style: italic;
 }
 
 .publication-title,
 .publication-title-link {
     font-style: italic;
-    font-size: 1rem;
 }
 
-.publication-title-link {
-    color: var(--accent);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.15em;
+.publication-supplementary,
+.publication-code {
+    margin-left: 0.35rem;
+    font-size: 0.92rem;
 }
 
-.publication-title-link:hover {
-    color: var(--accent-strong);
+.publication-meta,
+.publication-title-line,
+.eyebrow,
+.jump-link {
+    display: none;
 }
 
-@media (max-width: 840px) {
+.ripple-bg {
+    display: block;
+    width: min(380px, 32vw);
+    margin: 0 auto 1.6rem;
+    opacity: 0.06;
+    mix-blend-mode: multiply;
+    filter: grayscale(1);
+}
+
+@media (max-width: 900px) {
+    body {
+        font-size: 18px;
+    }
+
     main {
-        width: calc(100% - 16px);
-        margin: 10px auto 28px;
-        gap: 10px;
+        width: calc(100% - 18px);
+        margin: 10px auto 26px;
+        padding: 1rem 0.95rem 1.35rem;
+        border-right: 0;
+        border-left: 0;
     }
 
-    main > section {
-        padding: 14px 12px;
-        border-radius: 4px;
+    .title {
+        font-size: clamp(1.7rem, 8vw, 2.4rem);
     }
 
-    .section-head {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
+    .author-line,
+    .affiliation-line,
+    .opening-head,
+    .contact-row {
+        text-indent: 0;
     }
 
-    .publication-list {
-        padding-left: 1.1rem;
+    .publication {
+        text-indent: 0;
+        padding-left: 0;
+    }
+
+    .bio {
+        text-indent: 0;
+    }
+
+    .ripple-bg {
+        width: min(320px, 64vw);
+        margin-bottom: 1.2rem;
     }
 }
