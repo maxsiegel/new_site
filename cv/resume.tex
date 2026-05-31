@@ -1,48 +1,181 @@
-\documentclass[10pt,letterpaper,sans]{moderncv}
+\documentclass[10pt, letterpaper]{article}
 
-\moderncvstyle{banking}
-\moderncvcolor{blue}
+\usepackage[
+  top=0.78in, bottom=0.70in, left=0.82in, right=0.82in
+]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{plex-sans}   % IBM Plex Sans → \sffamily
+\usepackage{plex-mono}   % IBM Plex Mono → \ttfamily
+\usepackage{amssymb}
 
-\usepackage[scale=0.82]{geometry}
-\setlength{\hintscolumnwidth}{2.1cm}
+% IBM Plex Sans as default; CM Roman stays for \rmfamily (name + summary)
+\renewcommand{\familydefault}{\sfdefault}
 
-\name{Max}{Siegel}
-\title{Research Scientist}
-\address{Cambridge, MA}{}{}
-\email{maxs@mit.edu}
+\definecolor{accent}{RGB}{61, 110, 181}
+\definecolor{soft}{RGB}{107, 107, 120}
+\definecolor{faint}{RGB}{146, 146, 153}
+\definecolor{ink}{RGB}{61, 61, 72}
+
+\color{ink}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+\newlength{\railw}
+\setlength{\railw}{1.05in}
+\newlength{\rowgap}
+\setlength{\rowgap}{16pt}   % gap between rail and body
+
+% Section heading: small spaced uppercase sans + hairline rule
+\newcommand{\sectionhead}[1]{%
+  \vspace{11pt}%
+  {\fontsize{7.5}{9}\selectfont\sffamily\bfseries\color{soft}%
+   \textls*[70]{\MakeUppercase{#1}}}%
+  \hspace{8pt}{\color{faint}\leaders\hrule height 0.35pt\hfill}\kern0pt%
+  \vspace{7pt}\par%
+}
+
+% Two-column row
+\newcommand{\cvrow}[2]{%
+  \noindent
+  \begin{minipage}[t]{\railw}%
+    \vspace{0pt}{\fontsize{7.875}{12}\selectfont\ttfamily\color{faint}#1}%
+  \end{minipage}%
+  \hspace{\rowgap}%
+  \begin{minipage}[t]{\dimexpr\textwidth-\railw-\rowgap\relax}%
+    \vspace{0pt}#2%
+  \end{minipage}%
+  \par\addvspace{5pt}%
+}
+
+% Colored dot bullet (4pt circle, accent, raised)
+\newcommand{\dotbullet}{%
+  \textcolor{accent}{\fontsize{4}{4}\selectfont\raisebox{2.8pt}{$\bullet$}}}
 
 \begin{document}
-\makecvtitle
 
-\section{Summary}
-\cvitem{}{Research Scientist with deep experience in computational cognitive science, perception, concept learning, and multimodal reasoning. Builds computational models, designs behavioral experiments, and publishes interdisciplinary research spanning human perception, reasoning, and human-AI interaction.}
+%% ---------- Header ----------
+\begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}
+  {\fontsize{24.75}{25}\selectfont\rmfamily Max Siegel}
+  &
+  \begin{tabular}[b]{@{}r@{}}
+    {\fontsize{8.25}{14}\selectfont\ttfamily\color{soft}%
+      \href{mailto:maxs@mit.edu}{maxs@mit.edu}} \\
+    {\fontsize{8.25}{14}\selectfont\ttfamily\color{soft}%
+      \href{https://web.mit.edu/maxs/www/}{web.mit.edu/maxs}} \\
+    {\fontsize{8.25}{14}\selectfont\ttfamily\color{soft}%
+      \href{https://scholar.google.com/citations?user=1vuijIgAAAAJ&hl=en}{Google Scholar}} \\
+    {\fontsize{8.25}{14}\selectfont\ttfamily\color{faint}Cambridge, MA}
+  \end{tabular}
+\end{tabular*}
+\vspace{4pt}\par
+{\fontsize{8.625}{10}\selectfont\sffamily\bfseries\color{accent}%
+  \textls*[70]{RESEARCH SCIENTIST \textperiodcentered\ COMPUTATIONAL COGNITIVE SCIENCE}}
+\vspace{5pt}
+\hrule height 1.5pt
+\vspace{11pt}
 
-\section{Experience}
-\cventry{2018--Present}{Research Scientist}{MIT, Department of Brain and Cognitive Sciences}{Cambridge, MA}{}{
-\begin{itemize}
-\item Conduct research in the Computational Cognitive Science group at MIT on perception, concept learning, multimodal reasoning, and human-AI interaction.
-\item Develop and evaluate computational accounts of human intelligence using tools from cognitive science, probabilistic modeling, and analysis-by-synthesis.
-\item Lead research projects from problem formulation through experiment design, analysis, writing, and publication.
-\item Collaborate across psychology, neuroscience, computer science, and developmental science on projects involving vision, sound, language, and social reasoning.
-\item Publish work in venues including \textit{Nature Human Behaviour}, \textit{Nature Communications}, \textit{Journal of Experimental Psychology: General}, and the \textit{Proceedings of the Annual Meeting of the Cognitive Science Society}.
-\end{itemize}}
+%% ---------- Summary ----------
+{\fontsize{11.25}{18}\selectfont\rmfamily
+Research scientist building computational models of perception, learning, and reasoning,
+validated against human behavioral data. A decade of cross-disciplinary work spanning
+vision, sound, language, and social cognition --- owning projects end to end and shipping
+results to top venues including \textit{Nature Human Behaviour} and
+\textit{Nature Communications}. Now bringing that rigor to applied problems in human--AI
+interaction.}
 
-\section{Core Strengths}
-\cvitem{Research}{Computational cognitive science, visual perception, concept learning, multimodal reasoning, human-AI interaction}
-\cvitem{Methods}{Computational modeling, behavioral experiments, statistical analysis, hypothesis-driven research, interdisciplinary collaboration}
-\cvitem{Output}{Scientific writing, publication strategy, literature synthesis, presentation of technical work to research audiences}
+%% ---------- Core Strengths ----------
+\sectionhead{Core Strengths}
 
-\section{Selected Publications}
-\cvitem{2025}{Machino, Y., \textbf{Siegel, M. H.}, Hofer, M., Tenenbaum, J. B., \& Hawkins, R. Minding the Politeness Gap in Cross-cultural Communication. \textit{Proceedings of the Annual Meeting of the Cognitive Science Society}.}
-\cvitem{2023}{Yildirim, I., \textbf{Siegel, M. H.}, Soltani, A. A., Ray Chaudhuri, S., \& Tenenbaum, J. B. Perception of 3D shape integrates intuitive physics and analysis-by-synthesis. \textit{Nature Human Behaviour}.}
-\cvitem{2023}{Mazor, M., \textbf{Siegel, M. H.}, \& Tenenbaum, J. B. Prospective search time estimates reveal the strengths and limits of internal models of visual search. \textit{Journal of Experimental Psychology: General}.}
-\cvitem{2021}{\textbf{Siegel, M. H.}, Magid, R. W., Pelz, M., Tenenbaum, J. B., \& Schulz, L. E. Children's exploratory play tracks the discriminability of hypotheses. \textit{Nature Communications}.}
+\cvrow{{\color{soft}Expertise}}{%
+  {\fontsize{9.375}{14.0}\selectfont
+  Computational cognitive science · perception \& concept learning · multimodal reasoning ·
+  human--AI interaction}}
 
-\section{Education}
-\cventry{2018}{Ph.D. in Brain and Cognitive Sciences}{MIT}{Cambridge, MA}{}{Graduated September 2018.}
+\cvrow{{\color{soft}Methods}}{%
+  {\fontsize{9.375}{14.0}\selectfont
+  Probabilistic modeling · analysis-by-synthesis · behavioral experiment design ·
+  quantitative data analysis}}
 
-\section{Additional Information}
-\cvitem{Location}{Cambridge, Massachusetts}
-\cvitem{Focus}{Research scientist and applied research roles spanning AI, cognition, perception, and human-centered machine intelligence}
+\cvrow{{\color{soft}Comms}}{%
+  {\fontsize{9.375}{14.0}\selectfont
+  Scientific writing · presenting technical research to academic, applied, and
+  cross-disciplinary audiences}}
+
+%% ---------- Experience ----------
+\sectionhead{Experience}
+
+\cvrow{{\color{soft}2018---}\\Present}{%
+  {\fontsize{10.875}{13}\selectfont\sffamily\bfseries Research Scientist}\\[2pt]
+  {\fontsize{9.375}{13}\selectfont\color{soft}%
+    MIT · Dept.\ of Brain \& Cognitive Sciences --- Cambridge, MA}
+  \begin{itemize}[
+    leftmargin=11pt, itemsep=3pt, topsep=5pt, parsep=0pt,
+    label=\dotbullet
+  ]
+    \item {\fontsize{9.375}{14.0}\selectfont
+      Build computational models of perception, learning, and reasoning, testing
+      predictions against human behavioral data to produce quantitative accounts of
+      intelligent behavior.}
+    \item {\fontsize{9.375}{14.0}\selectfont
+      Design and run experiments across vision, auditory perception, language, and
+      social cognition --- from paradigm design through collection, analysis, and
+      interpretation.}
+    \item {\fontsize{9.375}{14.0}\selectfont
+      Own projects end to end: framing the question, designing experiments, running
+      analysis, writing manuscripts, and seeing work through to publication.}
+    \item {\fontsize{9.375}{14.0}\selectfont
+      Collaborate across cognitive science, computer science, neuroscience, and
+      developmental psychology within MIT and with external partners.}
+    \item {\fontsize{9.375}{14.0}\selectfont
+      Published 23 papers (4 as co-first author) in venues including
+      \textit{Nature Human Behaviour}, \textit{Nature Communications}, and
+      \textit{JEP: General}.}
+  \end{itemize}%
+}
+
+%% ---------- Selected Publications ----------
+\sectionhead{Selected Publications}
+
+\cvrow{2025}{%
+  {\fontsize{9.375}{14.0}\selectfont
+  Machino, Y., \textbf{Siegel, M.\,H.}, Hofer, M., Tenenbaum, J.\,B., \& Hawkins, R.
+  Minding the Politeness Gap in Cross-cultural Communication.
+  \textit{Proc.\ of the Annual Meeting of the Cognitive Science Society.}}}
+
+\cvrow{2023}{%
+  {\fontsize{9.375}{14.0}\selectfont
+  Yildirim, I., \textbf{Siegel, M.\,H.}$^{\bigstar}$, Soltani, A.\,A.,
+  Ray~Chaudhuri, S., \& Tenenbaum, J.\,B.
+  Perception of 3D shape integrates intuitive physics and analysis-by-synthesis.
+  \textit{Nature Human Behaviour.}}}
+
+\cvrow{2023}{%
+  {\fontsize{9.375}{14.0}\selectfont
+  Mazor, M., \textbf{Siegel, M.\,H.}, \& Tenenbaum, J.\,B.
+  Prospective search time estimates reveal the strengths and limits of internal models
+  of visual search.
+  \textit{JEP: General.}}}
+
+\cvrow{2021}{%
+  {\fontsize{9.375}{14.0}\selectfont
+  \textbf{Siegel, M.\,H.}$^{\bigstar}$, Magid, R.\,W., Pelz, M.,
+  Tenenbaum, J.\,B., \& Schulz, L.\,E.
+  Children's exploratory play tracks the discriminability of hypotheses.
+  \textit{Nature Communications.}}}
+
+\cvrow{}{{\fontsize{7.5}{10}\selectfont\ttfamily\color{faint}$\bigstar$\enspace Co-first author}}
+
+%% ---------- Education ----------
+\sectionhead{Education}
+
+\cvrow{2018}{%
+  {\fontsize{10.125}{13}\selectfont\sffamily\bfseries Ph.D., Brain \& Cognitive Sciences}\\[1pt]
+  {\fontsize{9.375}{13}\selectfont\color{soft}MIT --- Cambridge, MA}}
 
 \end{document}
