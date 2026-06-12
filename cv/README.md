@@ -5,6 +5,7 @@ Starter CV built with the `moderncv` LaTeX template.
 ## Files
 
 - `cv.tex`: main CV source
+- `templates/`: alternate template directions for comparing different layouts
 
 ## Build
 
@@ -25,3 +26,12 @@ pdflatex cv.tex
 ```
 
 Output file: `cv.pdf`
+
+## Alternate Templates
+
+See `/Users/maxs/personal/cv/templates/README.md` for three non-`moderncv`
+starting points:
+
+- `minimal-article`
+- `split-column`
+- `compact-academic`

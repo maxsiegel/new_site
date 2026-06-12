@@ -1,17 +1,21 @@
 \documentclass[11pt,a4paper,sans]{moderncv}
 
-\moderncvstyle{classic}
-\moderncvcolor{blue}
+\moderncvstyle{oldstyle}
+\moderncvcolor{black}
 
 \usepackage[scale=0.85]{geometry}
-\setlength{\hintscolumnwidth}{2.8cm}
+\setlength{\hintscolumnwidth}{0cm}
+\setlength{\separatorcolumnwidth}{0cm}
+\renewcommand*{\namefont}{\fontsize{24}{26}\bfseries\upshape}
+\renewcommand*{\titlefont}{\Large\mdseries\upshape}
+\renewcommand*{\addressfont}{\small\mdseries\upshape}
 \usepackage[
   backend=biber,
   sorting=ydnt,
   maxbibnames=99,
   doi=false,
   url=false,
-  issn=false
+  isbn=false
 ]{biblatex}
 \usepackage{xstring}
 \DeclareSourcemap{
@@ -47,33 +51,43 @@
 
 \name{Max}{Siegel}
 \title{Curriculum Vitae}
-\address{Cambridge, MA}{}{}
+
 \email{maxs@mit.edu}
 
 \begin{document}
 \makecvtitle
+\vspace{2.5em}
 
 \section{Profile}
 \cvitem{}{
-	Research Scientist in the Computational Cognitive Science group in the
-	Department of Brain and Cognitive Sciences at MIT. Research focuses on
-	computational cognitive science, perception, and concept learning.
+	Research Scientist in the Computational Cognitive Science group,
+	Department of Brain and Cognitive Sciences, MIT. Develops computational
+	accounts of human perception, concept learning, and multimodal reasoning,
+	combining probabilistic modeling with behavioral experimentation to produce
+	rigorous, quantitative theories of intelligent behavior.
 }
 
 \section{Research Interests}
 \cvitem{}{
 	Computational cognitive science; visual perception; concept learning;
-	multimodal reasoning; human-AI interaction.
+	multimodal reasoning.
 }
 
 \section{Appointments}
-\cventry{2018--Present}{Research Scientist}{MIT, Department of Brain and Cognitive Sciences}{Cambridge, MA}{}{
-	Computational Cognitive Science Group.
+\cvitem{}{\textbf{Research Scientist}, 2018--Present\\
+	MIT, Department of Brain and Cognitive Sciences, Cambridge, MA\\[0.3em]
+	Computational Cognitive Science Group. Research on perception, concept learning,
+	and multimodal reasoning using computational modeling and behavioral experiments.
+}
+\cvitem{}{\textbf{Postdoctoral Fellow}, 2018--Present\\
+	MIT, Department of Brain and Cognitive Sciences, Cambridge, MA\\[0.3em]
+	Computational Cognitive Science Group. Research on perception, concept learning,
+	and multimodal reasoning using computational modeling and behavioral experiments.
 }
 
 \section{Education}
-\cventry{2018}{Ph.D. in Brain and Cognitive Sciences}{MIT}{Cambridge, MA}{}{
-	Graduated September 2018.
+\cvitem{}{\textbf{Ph.D. in Brain and Cognitive Sciences}, 2018\\
+	MIT, Cambridge, MA
 }
 
 \section{Publications}
